@@ -2,10 +2,10 @@ const knex = require('../drivers/knex')
 
 module.exports = request => ({
   async findById(id) {
-    return knex('lists').select('*').where({ id }).first()
+    return knex('collections').select('*').where({ id }).first()
   },
   async find({ limit, offset }) {
-    const query = knex('lists').select('*')
+    const query = knex('collections').select('*')
 
     if (limit) query.limit(limit)
     if (offset) query.offset(offset)
@@ -13,7 +13,7 @@ module.exports = request => ({
     return query
   },
   async count() {
-    const [{ count }] = await knex('lists').count()
+    const [{ count }] = await knex('collections').count()
 
     return count
   }

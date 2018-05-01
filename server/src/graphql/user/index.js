@@ -1,6 +1,6 @@
 const { find, filter } = require('lodash')
 const userSelector = require('../../selectors/user')
-const listSelector = require('../../selectors/list')
+const collectionSelector = require('../../selectors/collection')
 const userMutation = require('../../mutations/user')
 
 const typeDefs = `
@@ -8,7 +8,7 @@ const typeDefs = `
     id: Int!
     email: String
     username: String
-    lists: [List]
+    collections: [Collection]
   }
 
   type UserPagination {
@@ -30,8 +30,8 @@ const resolvers = {
     }
   },
   User: {
-    lists: (user, args, request) =>
-      listSelector(request).find({ where: { userId: user.id } })
+    collections: (user, args, request) =>
+      collectionSelector(request).find({ where: { ownerId: user.id } })
   },
   UserPagination: {
     totalCount: (parent, args, request) =>

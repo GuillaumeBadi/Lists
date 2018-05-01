@@ -2,6 +2,17 @@
 
 The server is based on Node.js 9.11.0 and implement a GraphQL API.
 
+## Prerequisite
+
+The server require to have a PostgreSQL server available.
+
+## Quick start
+
+1) Install dependencies `npm install`.
+2) Update the `.env` file.
+3) Run migrations `npm run migrate:up`.
+4) Start the app with `npm run dev`.
+
 ## File Structure
 
 ```

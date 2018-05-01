@@ -54,6 +54,12 @@ class InternalServerError extends APIError {
   }
 }
 
+function assert(value, message) {
+  if (!value) {
+    throw new UnprocessableEntity(message)
+  }
+}
+
 module.exports = {
   APIError,
   BadRequest,
@@ -62,4 +68,5 @@ module.exports = {
   NotFound,
   UnprocessableEntity,
   InternalServerError,
+  assert,
 }

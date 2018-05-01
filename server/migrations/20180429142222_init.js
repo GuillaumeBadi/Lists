@@ -5,6 +5,7 @@ exports.up = async function (knex, Promise) {
 
     table.string('username').unique()
     table.string('email').unique()
+    table.boolean('emailVerified').defaultTo(false)
     table.string('pictureUrl')
     table.string('password')
 
@@ -23,28 +24,30 @@ exports.up = async function (knex, Promise) {
     table.foreign('userId').references('id').inTable('users')
   })
 
-  await knex.schema.createTable('lists', table => {
+  await knex.schema.createTable('collections', table => {
     table.increments().primary()
 
-    table.integer('userId')
+    table.boolean('public')
+    table.integer('ownerId')
     table.string('name')
     table.text('description')
 
     table.timestamp('createdAt').defaultTo(knex.fn.now())
     table.timestamp('updatedAt').defaultTo(knex.fn.now())
 
-    table.foreign('userId').references('id').inTable('users')
+    table.foreign('ownerId').references('id').inTable('users')
   })
 
   await knex.schema.createTable('items', table => {
     table.increments().primary()
 
-    table.integer('listId')
+    table.integer('collectionId')
+    table.integer('ownerId')
 
     table.integer('index')
 
     table.enum('type', [
-      'LIST',
+      'COLLECTION',
       'URL',
       'CHECKABLE',
       'TEXT',
@@ -53,16 +56,19 @@ exports.up = async function (knex, Promise) {
 
     table.jsonb('value')
 
+    table.string('cname')
+    table.string('cid')
+
     table.timestamp('createdAt').defaultTo(knex.fn.now())
     table.timestamp('updatedAt').defaultTo(knex.fn.now())
 
-    table.foreign('listId').references('id').inTable('lists')
+    table.foreign('collectionId').references('id').inTable('collections')
   })
 }
 
 exports.down = async function (knex, Promise) {
   await knex.schema.dropTable('items')
-  await knex.schema.dropTable('lists')
+  await knex.schema.dropTable('collections')
   await knex.schema.dropTable('userSettings')
   await knex.schema.dropTable('users')
 }

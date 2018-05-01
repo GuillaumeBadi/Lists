@@ -2,22 +2,22 @@ const knex = require('../drivers/knex')
 
 module.exports = request => ({
   async create(payload) {
-    const [list] = await knex('lists')
+    const [collection] = await knex('collections')
       .insert(payload)
       .returning('*')
 
-    return list
+    return collection
   },
-  async addItem(list, itemPayload) {
+  async addItem(collection, itemPayload) {
     const [item] = await knex('items')
-      .insert({ ...itemPayload, listId: list.id })
+      .insert({ ...itemPayload, collectionId: collection.id })
       .returning('*')
 
     return item
   },
-  async removeItem(list, id) {
+  async removeItem(collection, id) {
     await knex('items')
       .delete()
-      .where({ id, listId: list.id })
+      .where({ id, collectionId: collection.id })
   }
 })

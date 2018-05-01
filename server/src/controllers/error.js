@@ -6,7 +6,7 @@ function notFoundMiddleware(req, res, next) {
 
 function errorMiddleware(err, req, res, next) {
   let error
-  
+
   console.log(err)
 
   if (err instanceof APIError) {

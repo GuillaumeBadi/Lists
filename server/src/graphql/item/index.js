@@ -1,12 +1,12 @@
 const { find, filter } = require('lodash')
 const itemSelector = require('../../selectors/item')
 const userSelector = require('../../selectors/user')
-const listMutation = require('../../mutations/list')
+const collectionMutation = require('../../mutations/collection')
 
 const typeDefs = `
   type Item {
     id: Int!
-    listId: Int!
+    collectionId: Int!
     index: Int
     type: String
     value: String

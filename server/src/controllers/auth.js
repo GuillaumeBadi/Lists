@@ -1,10 +1,13 @@
 const { Router } = require('express')
-const crypto = require('crypto');
-var jwt = require('jsonwebtoken')
-const knex = require('../../drivers/knex')
-const { UnprocessableEntity, Forbidden } = require('../../util/errors')
+const crypto = require('crypto')
+const pick = require('lodash.pick')
 
-const { SALT, JWT_SECRET } = process.env
+const knex = require('../drivers/knex')
+const userMutation = require('../mutations/user')
+const authUtil = require('../util/auth')
+const { UnprocessableEntity, Forbidden } = require('../util/errors')
+
+const { SALT } = process.env
 
 const router = Router()
 
@@ -12,8 +15,13 @@ router
   .route('/authenticate')
   .post(createAuth)
 
+router
+  .route('/register')
+  .post(createUser)
+
 async function createAuth(req, res, next) {
   try {
+    // Validate body
     if (!req.body.email || !req.body.password) {
       return next(new UnprocessableEntity(
         'Fields "email" and "password" are required'
@@ -34,11 +42,9 @@ async function createAuth(req, res, next) {
 
     if (!user) return next(new Forbidden())
 
-    const jwtPayload = { email: user.email, name: user.username }
+    const jwt = auth.getAuthorization(user)
 
-    const token = jwt.sign(jwtPayload, JWT_SECRET)
-
-    return res.json({ jwt: token })
+    return res.json({ jwt })
   } catch (err) {
     next(err)
   }
@@ -47,24 +53,23 @@ async function createAuth(req, res, next) {
 async function authenticate(req, res, next) {
   try {
     const token = req.get('Authorization')
-    let decoded
 
-    try {
-      decoded = jwt.verify(token, JWT_SECRET)
-    } catch(err) {
-      return next(new Forbidden())
-    }
-
-    req.user = await knex('users')
-      .select('*')
-      .where('email', decoded.email)
-      .first()
-
-    if (!req.user) return next(new Forbidden())
+    req.user = await auth.checkAuthorization(token)
 
     return next()
   } catch (err) {
     return next(err)
+  }
+}
+
+async function createUser(req, res, next) {
+  try {
+    const user = await userMutation(req).create(req.body)
+    const cleanUser = pick(user, ['id', 'username', 'email'])
+
+    res.status(201).json(cleanUser)
+  } catch (err) {
+    next(err)
   }
 }
 
