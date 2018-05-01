@@ -1,6 +1,6 @@
 # Server
 
-The server is based one Node.js 9.11.0 and implement a GraphQL API.
+The server is based on Node.js 9.11.0 and implement a GraphQL API.
 
 ## File Structure
 
