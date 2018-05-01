@@ -9,7 +9,7 @@ const { SALT, JWT_SECRET } = process.env
 const router = Router()
 
 router
-  .route('/auth')
+  .route('/authenticate')
   .post(createAuth)
 
 async function createAuth(req, res, next) {
@@ -38,7 +38,7 @@ async function createAuth(req, res, next) {
 
     const token = jwt.sign(jwtPayload, JWT_SECRET)
 
-    return res.json({ token })
+    return res.json({ jwt: token })
   } catch (err) {
     next(err)
   }
