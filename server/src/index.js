@@ -20,7 +20,8 @@ function onStart() {
   })
 }
 
-onProcessHook(() => {
+onProcessHook((err) => {
+  console.log(err)
   setTimeout(() => {
     console.error('Hard shutdown')
     process.exit(1)

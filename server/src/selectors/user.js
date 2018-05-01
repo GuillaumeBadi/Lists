@@ -1,6 +1,6 @@
 const knex = require('../drivers/knex')
 
-module.exports = {
+module.exports = request => ({
   async findById(id) {
     return knex('users').select('*').where({ id }).first()
   },
@@ -17,4 +17,4 @@ module.exports = {
 
     return count
   }
-}
+})

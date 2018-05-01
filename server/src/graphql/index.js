@@ -2,12 +2,14 @@ const { makeExecutableSchema } = require('graphql-tools')
 const merge = require('lodash.merge')
 const User = require('./user')
 const List = require('./list')
+const Item = require('./item')
 
 const RootQuery = `
   type RootQuery {
     lists(offset: Int, limit: Int = 50): ListPagination
     user(id: Int!): User
     users(offset: Int, limit: Int = 50): UserPagination
+    item(id: Int!): Item
   }
 `
 const RootMutation = `
@@ -17,6 +19,20 @@ const RootMutation = `
       name: String!
       description: String
     ): List
+
+    addListItem (
+      userId: Int!
+      listId: Int!
+      type: String!
+      value: String!
+    ): Item
+
+    createUser (
+      username: String!
+      email: String!
+      password: String!
+      pictureUrl: String
+    ): User
   }
 `
 
@@ -26,17 +42,16 @@ const SchemaDefinition = `
     mutation: RootMutation
   }
 `
+const Schemas = [User, List, Item]
 
-module.exports =  makeExecutableSchema({
+const Schema = {
   typeDefs: [
     RootQuery,
     RootMutation,
     SchemaDefinition,
-    User.typeDefs,
-    List.typeDefs
+    ...Schemas.map(type => type.typeDefs)
   ],
-  resolvers: merge(
-    User.resolvers,
-    List.resolvers,
-  )
-});
+  resolvers: merge(...Schemas.map(type => type.resolvers))
+}
+
+module.exports = makeExecutableSchema(Schema);

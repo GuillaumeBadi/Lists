@@ -1,7 +1,10 @@
 const { Router } = require('express')
-const errors = require('../../util/errors')
+const crypto = require('crypto');
+var jwt = require('jsonwebtoken')
+const knex = require('../../drivers/knex')
+const { UnprocessableEntity, Forbidden } = require('../../util/errors')
 
-const SESSION = new Map()
+const { SALT, JWT_SECRET } = process.env
 
 const router = Router()
 
@@ -9,18 +12,63 @@ router
   .route('/auth')
   .post(createAuth)
 
-function createAuth(req, res, next) {
-  const id = puid.generate()
+async function createAuth(req, res, next) {
+  try {
+    if (!req.body.email || !req.body.password) {
+      return next(new UnprocessableEntity(
+        'Fields "email" and "password" are required'
+      ))
+    }
+    const { email } = req.body
 
-  SESSION.set(id, auth.email)
+    const hash = crypto.createHash('sha256')
 
-  res.json({})
+    hash.update(SALT + req.body.password)
+
+    const password = hash.digest('hex')
+
+    const user = await knex('users')
+      .select('*')
+      .where({ email, password })
+      .first()
+
+    if (!user) return next(new Forbidden())
+
+    const jwtPayload = { email: user.email, name: user.username }
+
+    const token = jwt.sign(jwtPayload, JWT_SECRET)
+
+    return res.json({ token })
+  } catch (err) {
+    next(err)
+  }
 }
 
-function isAuthenticated(req, res, next) {
+async function authenticate(req, res, next) {
+  try {
+    const token = req.get('Authorization')
+    let decoded
 
+    try {
+      decoded = jwt.verify(token, JWT_SECRET)
+    } catch(err) {
+      return next(new Forbidden())
+    }
+
+    req.user = await knex('users')
+      .select('*')
+      .where('email', decoded.email)
+      .first()
+
+    if (!req.user) return next(new Forbidden())
+
+    return next()
+  } catch (err) {
+    return next(err)
+  }
 }
 
 module.exports = {
-  router
+  router,
+  authenticate
 }

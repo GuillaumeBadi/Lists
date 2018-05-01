@@ -1,7 +1,13 @@
-const { APIError } = require('../util/errors')
+const { NotFound, APIError } = require('../util/errors')
+
+function notFoundMiddleware(req, res, next) {
+  next(new NotFound())
+}
 
 function errorMiddleware(err, req, res, next) {
   let error
+  
+  console.log(err)
 
   if (err instanceof APIError) {
     res.status(err.status)
@@ -16,4 +22,4 @@ function errorMiddleware(err, req, res, next) {
   res.json(error)
 }
 
-module.exports = errorMiddleware
+module.exports = { notFoundMiddleware, errorMiddleware }

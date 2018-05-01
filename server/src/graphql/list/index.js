@@ -9,6 +9,8 @@ const typeDefs = `
     name: String
     user: User
     description: String
+    createdAt: String
+    updatedAt: String
   }
 
   type ListPagination {
@@ -17,30 +19,36 @@ const typeDefs = `
   }
 `
 
-const lists = [
-  { id: 1, userId: 1, name: 'Introduction to GraphQL' },
-  { id: 2, userId: 2, name: 'Welcome to Meteor' },
-  { id: 3, userId: 2, name: 'Advanced GraphQL' },
-  { id: 4, userId: 3, name: 'Launchpad is Cool' }
-]
-
 const resolvers = {
   RootQuery: {
     lists: () => ({})
   },
   RootMutation: {
-    async createList(_, payload) {
-      const list = await listMutation.create(payload)
+    async createList(_, payload, request) {
+      const list = await listMutation(request).create(payload)
 
       return list
+    },
+    async addListItem(_, payload, request) {
+      const list = await listSelector(request).findById(payload.listId)
+
+      if (!list) {
+        throw new ResourceNotFoundError('List not found')
+      }
+
+      const item = await listMutation(request).addItem(list, payload)
+
+      return item
     }
   },
   List: {
-    user: list => userSelector.findById(list.userId)
+    user: (list, args, request) => userSelector(request).findById(list.userId)
   },
   ListPagination: {
-    totalCount: () => listSelector.count(),
-    results: (_, { limit, offset }) => listSelector.find({ limit, offset })
+    totalCount: (parent, args, request) =>
+      listSelector(request).count(),
+    results: (_, { limit, offset }, request) =>
+      listSelector(request).find({ limit, offset })
   }
 }
 
