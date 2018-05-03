@@ -7,6 +7,7 @@ const Item = require('./item')
 const RootQuery = `
   type RootQuery {
     collections(offset: Int, limit: Int = 50): CollectionPagination
+    me: User
     user(id: Int!): User
     users(offset: Int, limit: Int = 50): UserPagination
     item(id: Int!): Item
@@ -27,11 +28,17 @@ const RootMutation = `
       value: String!
     ): Item
 
-    createUser (
+    register (
       username: String!
       email: String!
       password: String!
       pictureUrl: String
+    ): User
+
+    authenticate (
+      username: String!
+      email: String!
+      password: String!
     ): User
   }
 `

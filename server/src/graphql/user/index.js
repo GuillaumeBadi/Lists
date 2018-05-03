@@ -1,4 +1,5 @@
 const { find, filter } = require('lodash')
+const auth = require('../../util/auth')
 const userSelector = require('../../selectors/user')
 const collectionSelector = require('../../selectors/collection')
 const userMutation = require('../../mutations/user')
@@ -8,6 +9,7 @@ const typeDefs = `
     id: Int!
     email: String
     username: String
+    jwt: String
     collections: [Collection]
   }
 
@@ -19,25 +21,34 @@ const typeDefs = `
 
 const resolvers = {
   RootQuery: {
-    user: (_, { id }, request) => userSelector(request).findById(id),
+    me: (_, __, req) => userSelector(req).findById(req.user.id),
+    user: (_, { id }, req) => userSelector(req).findById(id),
     users: () => ({})
   },
   RootMutation: {
-    async createUser(_, payload, request) {
-      const user = await userMutation(request).create(payload)
+    async register(_, payload, req) {
+      const user = await userMutation(req).create(payload)
+
+      req.__isNewUser = true
 
       return user
     }
   },
   User: {
-    collections: (user, args, request) =>
-      collectionSelector(request).find({ where: { ownerId: user.id } })
+    collections: (user, args, req) =>
+      collectionSelector(req).find({ where: { ownerId: user.id } }),
+    jwt: (user, args, req) => {
+      if (!req.__isNewUser && ((req.user && user.id !== req.user.id) || !req.user)) {
+        return null
+      }
+      return auth.getAuthorization(user)
+    }
   },
   UserPagination: {
-    totalCount: (parent, args, request) =>
-      userSelector(request).count(),
-    results: (_, { limit, offset }, request) =>
-      userSelector(request).find({ limit, offset })
+    totalCount: (parent, args, req) =>
+      userSelector(req).count(),
+    results: (_, { limit, offset }, req) =>
+      userSelector(req).find({ limit, offset })
   }
 }
 

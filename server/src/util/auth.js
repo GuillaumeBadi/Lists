@@ -26,7 +26,7 @@ async function checkAuthorization(token) {
 
   const user = await knex('users')
     .select('*')
-    .where('name', decoded.username)
+    .where('username', decoded.name)
     .where('email', decoded.email)
     .first()
 

@@ -1,10 +1,10 @@
 const { Router } = require('express')
-const crypto = require('crypto')
 const pick = require('lodash.pick')
 
 const knex = require('../drivers/knex')
 const userMutation = require('../mutations/user')
-const authUtil = require('../util/auth')
+const userSelector = require('../selectors/user')
+const auth = require('../util/auth')
 const { UnprocessableEntity, Forbidden } = require('../util/errors')
 
 const { SALT } = process.env
@@ -22,27 +22,14 @@ router
 async function createAuth(req, res, next) {
   try {
     // Validate body
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.username || !req.body.password) {
       return next(new UnprocessableEntity(
-        'Fields "email" and "password" are required'
+        'Fields "username" and "password" are required'
       ))
     }
-    const { email } = req.body
+    const { username } = req.body
 
-    const hash = crypto.createHash('sha256')
-
-    hash.update(SALT + req.body.password)
-
-    const password = hash.digest('hex')
-
-    const user = await knex('users')
-      .select('*')
-      .where({ email, password })
-      .first()
-
-    if (!user) return next(new Forbidden())
-
-    const jwt = auth.getAuthorization(user)
+    const jwt = await userSelector(req).verify(username, password)
 
     return res.json({ jwt })
   } catch (err) {
@@ -52,13 +39,15 @@ async function createAuth(req, res, next) {
 
 async function authenticate(req, res, next) {
   try {
-    const token = req.get('Authorization')
+    const token = req.get('Authorization') || req.query.jwt
 
     req.user = await auth.checkAuthorization(token)
 
     return next()
   } catch (err) {
-    return next(err)
+    return err instanceof Forbidden
+      ? next()
+      : next(err)
   }
 }
 

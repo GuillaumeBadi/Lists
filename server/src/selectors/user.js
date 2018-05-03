@@ -1,4 +1,6 @@
+const crypto = require('crypto')
 const knex = require('../drivers/knex')
+const auth = require('../util/auth')
 
 module.exports = request => ({
   async findById(id) {
@@ -16,5 +18,24 @@ module.exports = request => ({
     const [{ count }] = await knex('users').count()
 
     return count
+  },
+  async verify(username, password) {
+    const hash = crypto.createHash('sha256')
+
+    hash.update(SALT + password)
+
+    const password = hash.digest('hex')
+
+    const user = await knex('users')
+      .select('*')
+      .where('username', username)
+      .where('password', password)
+      .first()
+
+    if (!user) {
+      throw new Forbidden()
+    }
+
+    return auth.getAuthorization(user)
   }
 })

@@ -10,7 +10,7 @@ const router = Router()
   .use(auth.authenticate)
   .use('/graphql', graphqlHTTP({
     schema: schema,
-    graphiql: false,
+    graphiql: true
   }))
   .use(error.notFoundMiddleware)
   .use(error.errorMiddleware)
