@@ -27,7 +27,7 @@ const Username = styled.TextInput`
 
 const I = styled(Icon)`padding: 16px;`
 
-export default function() {
+export default function(props) {
   return (
     <Container>
       <Navigation>

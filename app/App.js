@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button } from 'react-native'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import styled from 'styled-components/native'
@@ -6,6 +7,9 @@ import { StatusBar } from 'react-native'
 
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 
+import { StackNavigator } from 'react-navigation'
+
+import Lists from './components/Lists'
 import Login from './components/Login'
 import Feed from './components/Feed'
 import Footer from './components/Footer'
@@ -20,6 +24,8 @@ const View = styled.View`
 const client = new ApolloClient({ uri: 'localhost:3001/graphql' })
 
 class Root extends Component {
+  gotoLists = () => this.props.navigation.navigate('Lists')
+
   renderTabs = ({ activeTab, goToPage }) => {
     return <Footer onSelect={goToPage} index={activeTab} />
   }
@@ -27,7 +33,6 @@ class Root extends Component {
   render() {
     return (
       <View>
-        <StatusBar />
         <Header />
         <ScrollableTabView
           renderTabBar={this.renderTabs}
@@ -37,17 +42,33 @@ class Root extends Component {
           <Feed />
           <Feed />
         </ScrollableTabView>
+        <Button title="hello" color="#424242" onPress={this.gotoLists} />
       </View>
     )
   }
 }
 
-export default class App extends Component {
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <Root />
-      </ApolloProvider>
-    )
-  }
+const Router = StackNavigator(
+  {
+    Home: { screen: Root },
+    LogIn: { screen: Login },
+    Lists: { screen: Lists },
+  },
+  {
+    initialRouteName: 'LogIn',
+    navigationOptions: {
+      header: Header,
+    },
+  },
+)
+
+export default function App() {
+  return (
+    <ApolloProvider client={client}>
+      <View>
+        <StatusBar hidden />
+        <Router />
+      </View>
+    </ApolloProvider>
+  )
 }
