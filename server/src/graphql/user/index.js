@@ -11,6 +11,7 @@ const typeDefs = `
     username: String
     jwt: String
     collections: [Collection]
+    settings: Settings
   }
 
   type UserPagination {
@@ -21,12 +22,19 @@ const typeDefs = `
 
 const resolvers = {
   RootQuery: {
-    viewer: (_, __, req) => userSelector(req).findById(req.user.id),
+    viewer: (_, __, req) => req.user && userSelector(req).findById(req.user.id),
     user: (_, { id }, req) => userSelector(req).findById(id),
-    users: () => ({})
+    users: () => ({}),
+    authenticate: async (_, payload, req) => {
+      const token = req.get('Authorization') || req.query.jwt
+
+      req.user = await auth.checkAuthorization(token)
+
+      return user
+    }
   },
   RootMutation: {
-    async register(_, payload, req) {
+    register: async (_, payload, req) => {
       const user = await userMutation(req).create(payload)
 
       req.__isNewUser = true
