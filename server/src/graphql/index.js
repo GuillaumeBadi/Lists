@@ -15,7 +15,6 @@ const RootQuery = `
 
     authenticate (
       username: String!
-      email: String!
       password: String!
     ): User
   }

@@ -30,7 +30,7 @@ const resolvers = {
 
       req.user = await auth.checkAuthorization(token)
 
-      return user
+      return req.user
     }
   },
   RootMutation: {
