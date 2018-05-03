@@ -1,7 +1,10 @@
-import { TabNavigator } from 'react-navigation'
 
-import Profile from './Profile'
+import React, { Component } from 'react'
+import { Router as RouterR } from 'react-native-router-flux'
 
-export default TabNavigator({
-  profile1: Profile,
-})
+export default function Router() {
+  return (
+    
+  )
+}
+

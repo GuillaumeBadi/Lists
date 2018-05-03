@@ -5,39 +5,74 @@ import { AuthSession } from 'expo'
 
 import { Button } from 'react-native'
 
-const FB_APP_ID = '2033479680240001'
-
 const Container = styled.View`
   flex: 1;
-  background-color: #f7f7f8;
+  align-items: center;
+  justify-content: center;
+`
+
+const Label = styled.Text``
+
+const Item = styled.View`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 8px;
+`
+
+const Input = styled.TextInput`
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  padding: 4px;
+  min-width: 200px;
 `
 
 class Login extends Component {
   state = {
-    result: null,
+    username: '',
+    email: '',
+    password: '',
   }
 
-  _handlePressAsync = async () => {
-    let redirectUrl = AuthSession.getRedirectUrl()
-    let result = await AuthSession.startAsync({
-      authUrl:
-        `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
-        `&client_id=${FB_APP_ID}` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-    })
-    this.setState({ result })
+  update = field => ({ e: { target: { value } } }) => {
+    this.setState({ [field]: value })
   }
 
   render() {
+    const { username, email, password } = this.state
+
     return (
       <Container>
-        <Button
-          title="Connect with Facebook"
-          onPress={this._handlePressAsync}
-        />
-        {this.state.result ? (
-          <Text>{JSON.stringify(this.state.result)}</Text>
-        ) : null}
+        <Item>
+          <Item>
+            <Label>Username</Label>
+            <Input value={username} onPress={this.update('username')} />
+          </Item>
+          <Item>
+            <Label>Email</Label>
+            <Input value={email} onPress={this.update('email')} />
+          </Item>
+          <Item>
+            <Label>Password</Label>
+            <Input value={email} onPress={this.update('password')} />
+          </Item>
+          <Item>
+            <Button color="#2275fa" title="SignUp" onPress={() => null} />
+          </Item>
+        </Item>
+        <Item>
+          <Item>
+            <Label>Username</Label>
+            <Input value={username} onPress={this.update('username')} />
+          </Item>
+          <Item>
+            <Label>Password</Label>
+            <Input value={email} onPress={this.update('password')} />
+          </Item>
+          <Item>
+            <Button color="#2275fa" title="SignIn" onPress={() => null} />
+          </Item>
+        </Item>
       </Container>
     )
   }
