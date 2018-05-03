@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
 import styled from 'styled-components/native'
 import { StatusBar } from 'react-native'
 
@@ -15,7 +17,9 @@ const View = styled.View`
   background-color: #f7f7f8;
 `
 
-export default class App extends React.Component {
+const client = new ApolloClient({ uri: 'localhost:3001/graphql' })
+
+class Root extends Component {
   renderTabs = ({ activeTab, goToPage }) => {
     return <Footer onSelect={goToPage} index={activeTab} />
   }
@@ -34,6 +38,16 @@ export default class App extends React.Component {
           <Feed />
         </ScrollableTabView>
       </View>
+    )
+  }
+}
+
+export default class App extends Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <Root />
+      </ApolloProvider>
     )
   }
 }
