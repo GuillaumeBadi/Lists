@@ -24,12 +24,12 @@ module.exports = request => ({
 
     hash.update(SALT + password)
 
-    const password = hash.digest('hex')
+    const pass = hash.digest('hex')
 
     const user = await knex('users')
       .select('*')
       .where('username', username)
-      .where('password', password)
+      .where('password', pass)
       .first()
 
     if (!user) {

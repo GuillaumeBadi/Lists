@@ -7,7 +7,7 @@ const Item = require('./item')
 const RootQuery = `
   type RootQuery {
     collections(offset: Int, limit: Int = 50): CollectionPagination
-    me: User
+    viewer: User
     user(id: Int!): User
     users(offset: Int, limit: Int = 50): UserPagination
     item(id: Int!): Item

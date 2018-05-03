@@ -21,7 +21,7 @@ const typeDefs = `
 
 const resolvers = {
   RootQuery: {
-    me: (_, __, req) => userSelector(req).findById(req.user.id),
+    viewer: (_, __, req) => userSelector(req).findById(req.user.id),
     user: (_, { id }, req) => userSelector(req).findById(id),
     users: () => ({})
   },
