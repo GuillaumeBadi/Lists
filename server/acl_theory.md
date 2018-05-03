@@ -33,17 +33,25 @@ Basic security issues:
 #### permissions
 
 permId | activity
------------------------
+-------|---------------
 1      | read list
 
 #### shares
 
 resource | resourceId | authorizedUser
-------------------------------------------
+---------|------------|-------------------
 lists    | 1          | userId
 
+#### FriendRequests
+
 userId | friendId
------------------
+-------|---------
+A      | E
+
+#### Friends
+
+userId | friendId
+-------|---------
 A      | E
 
 **prop 1**
@@ -52,7 +60,7 @@ The first proposition is to write the restrictions in a pseudo language. The rig
 two arguments 
 
 permId | role  | privacy      | rkey                           | FUNC     | lkey
--------------------------------------------------------------------------------------
+-------|-------|--------------|--------------------------------|----------|----------
 1      | user  | private      | resource.ownerId               | =        | .id 
 1      | user  | semi-private | resource.ownerId               | in       | .[]friends.id
 1      | user  | semi-private | resource.organizationId        | in       | .[]organizations.id
@@ -64,15 +72,26 @@ permId | role  | privacy      | rkey                           | FUNC     | lkey
 
 - line 3 is a bit complicated this means the resource was published as an organization. usecase 
 
+Pros
+--
+
+- Security management in db
+
+Cons
+--
+
+- Heavy migrations cost
+- 
+
 **prop 2**
 
 Or we can have context roles written in the code.
 
 permId | role  | privacy      | contextRole
---------------------------------------------
+-------|-------|--------------|-------------
 1      | user  | private      | Owner
 1      | user  | semi-private | FriendWithOwner
-1      | user  | semi-private | SameOrg
+1      | user  | semi-private | SameOrg ReadOrg
 1      | AM    | private      | SameCountry
 1      | Admin | private      | NULL
 
@@ -91,3 +110,11 @@ module.exports = {
   SameCountry: context => context.requireLoader('listOwners')
 }
 ```
+
+Further reading:
+
+- https://objectpartners.com/2017/06/16/abac-or-rbac/
+- https://www.tripwire.com/state-of-security/security-data-protection/security-controls/rbac-is-dead-now-what/
+- https://www.helpnetsecurity.com/2017/10/23/attribute-based-access-control/ 10 misconceptions about abac
+- https://dzone.com/articles/simple-attribute-based-access-control-with-spring simple implementation with spring
+- https://github.com/simon-barton/node-abac a nice example of abac security
