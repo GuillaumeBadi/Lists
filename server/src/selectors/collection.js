@@ -1,3 +1,4 @@
+const groupBy = require('lodash.groupby')
 const knex = require('../drivers/knex')
 
 module.exports = context => ({
@@ -12,10 +13,14 @@ module.exports = context => ({
     return ids.map(id => collections.find(collection => collection.id === id))
   },
 
-  async findByOwnerId(ownerId) {
-    const collections = await knex('collections').select('*').where({ ownerId })
+  async findByOwners(ownerIds) {
+    const collections = await knex('collections')
+      .select('*')
+      .whereIn('ownerId', ownerIds)
 
-    return ids.map(id => collections.find(collection => collection.id === id))
+    const collectionsByOwner = groupBy(collections, 'ownerId')
+
+    return ownerIds.map(ownerId => collectionsByOwner[ownerId] || [])
   },
 
   // TODO to trash

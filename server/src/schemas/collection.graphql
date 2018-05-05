@@ -21,4 +21,24 @@ type CollectionConnection {
   a list of nodes
   """
   nodes: [Collection]
+
+  """
+  a list of edges
+  """
+  edges: [CollectionEdge]
+}
+
+"""
+The edge type of collection
+"""
+type CollectionEdge {
+  """
+  a cursor
+  """
+  cursor: String!
+
+  """
+  a node
+  """
+  node: Collection
 }

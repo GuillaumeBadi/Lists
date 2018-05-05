@@ -1,9 +1,9 @@
 const knex = require('../drivers/knex')
 
 module.exports = request => ({
-  async create(payload) {
+  async create(ownerId, payload) {
     const [collection] = await knex('collections')
-      .insert(payload)
+      .insert({ ownerId, ...payload })
       .returning('*')
 
     return collection

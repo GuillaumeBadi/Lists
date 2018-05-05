@@ -27,4 +27,24 @@ type UserConnection {
   a list of nodes
   """
   nodes: [User]
+
+  """
+  a list of edges
+  """
+  edges: [UserEdge]
+}
+
+"""
+The edge type of user
+"""
+type UserEdge {
+  """
+  a cursor
+  """
+  cursor: String!
+
+  """
+  a node
+  """
+  node: User
 }

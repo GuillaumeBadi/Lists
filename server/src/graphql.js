@@ -50,8 +50,14 @@ module.exports = graphqlExpress(async request => {
     userSelector(request).findByIds(ids))
   context.loaders.collection = new DataLoader(ids =>
     collectionSelector(request).findByIds(ids))
-  context.loaders.collectionsByOwner = new DataLoader(ids =>
-    collectionSelector(request).findByOwners(ids))
+  context.loaders.collectionsByOwner = new DataLoader(async ids => {
+    const collectionsByOwner = await collectionSelector(request).findByOwners(ids)
+
+    collectionsByOwner.forEach(collections => collections.forEach(collection =>
+      context.loaders.collection.prime(collection.id, collection)))
+
+    return collectionsByOwner
+  })
 
   // Try to set context.user
   const token = extractToken(request)

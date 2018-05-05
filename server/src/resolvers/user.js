@@ -10,7 +10,7 @@ module.exports = {
     user: (_, { id }, ctx) => ctx.loaders.user.load(id),
     users: () => ({}),
     signin: async (_, payload, ctx) => {
-      const token = ctx.get('Authorization') || ctx.query.jwt
+      const token = ctx.request.get('Authorization') || ctx.request.query.jwt
 
       ctx.user = await auth.checkAuthorization(token)
 
@@ -25,8 +25,11 @@ module.exports = {
     }
   },
   User: {
-    collections: (user, args, ctx) =>
-      collectionSelector(ctx).find({ where: { ownerId: user.id } }),
+    collections: (user, args, ctx) => {
+      const collections = await ctx.loaders.collectionsByOwner.load(user.id)
+
+      return { nodes: collections }
+    },
     jwt: (user, args, ctx) => {
       if ((ctx.user && user.id !== ctx.user.id) || !ctx.user) {
         return null

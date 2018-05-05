@@ -9,7 +9,9 @@ const schemas = [
   fs.readFileSync(path.join(__dirname, "user.graphql"), "utf8")
 ].concat()
 
-const RootQuery = `
+const gql = ([str]) => str
+
+const RootQuery = gql`
   type RootQuery {
     viewer: User
     user(id: Int!): User
@@ -20,7 +22,7 @@ const RootQuery = `
   }
 `
 
-const RootMutation = `
+const RootMutation = gql`
   type RootMutation {
     signup (
       username: String!
@@ -30,7 +32,6 @@ const RootMutation = `
     ): User
 
     createCollection (
-      ownerId: Int!
       name: String!
       description: String
     ): Collection
@@ -44,7 +45,7 @@ const RootMutation = `
   }
 `
 
-const SchemaDefinition = `
+const SchemaDefinition = gql`
   schema {
     query: RootQuery
     mutation: RootMutation

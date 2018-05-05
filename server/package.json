@@ -24,6 +24,7 @@
     "graphql-tools": "^3.0.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.14.6",
+    "lodash.groupby": "^4.6.0",
     "lodash.merge": "^4.6.1",
     "lodash.pick": "^4.4.0",
     "objection": "^1.1.7",
