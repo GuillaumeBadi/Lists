@@ -38,7 +38,7 @@ async function populateUser(context, token) {
   }
 
   if (context.user) {
-    context.loaders.userLoader.prime('me', context.user)
+    context.loaders.user.prime('me', context.user)
   }
 }
 
@@ -46,10 +46,12 @@ module.exports = graphqlExpress(async request => {
   const context = { loaders: {}, request }
 
   // Initialize loaders
-  context.loaders.userLoader = new DataLoader(ids =>
+  context.loaders.user = new DataLoader(ids =>
     userSelector(request).findByIds(ids))
-  context.loaders.listLoader = new DataLoader(ids =>
+  context.loaders.collection = new DataLoader(ids =>
     collectionSelector(request).findByIds(ids))
+  context.loaders.collectionsByOwner = new DataLoader(ids =>
+    collectionSelector(request).findByOwners(ids))
 
   // Try to set context.user
   const token = extractToken(request)

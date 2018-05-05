@@ -6,8 +6,8 @@ const userMutation = require('../mutations/user')
 
 module.exports = {
   RootQuery: {
-    viewer: (_, __, ctx) => ctx.user && ctx.loaders.userLoader.load('me'),
-    user: (_, { id }, ctx) => ctx.loaders.userLoader.load(id),
+    viewer: (_, __, ctx) => ctx.user && ctx.loaders.user.load('me'),
+    user: (_, { id }, ctx) => ctx.loaders.user.load(id),
     users: () => ({}),
     signin: async (_, payload, ctx) => {
       const token = ctx.get('Authorization') || ctx.query.jwt
