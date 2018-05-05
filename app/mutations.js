@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost'
 
 export const signUp = gql`
-  mutation register($email: String!, $username: String!, $password: String!) {
-    register(email: $email, username: $username, password: $password) {
+  mutation signup($email: String!, $username: String!, $password: String!) {
+    signup(email: $email, username: $username, password: $password) {
       username
       id
       jwt
