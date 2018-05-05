@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   User: {
-    collections: (user, args, ctx) => {
+    collections: async (user, args, ctx) => {
       const collections = await ctx.loaders.collectionsByOwner.load(user.id)
 
       return { nodes: collections }
