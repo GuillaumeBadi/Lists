@@ -11,6 +11,9 @@ import CollectionForm from './components/CollectionForm'
 import Input from './components/Input'
 import Auth from './components/Auth'
 import Collections from './components/Collections'
+import Input from './components/Input'
+import Auth from './components/Auth'
+import Lists from './components/Lists'
 import Login from './components/Login'
 import Feed from './components/Feed'
 import Footer from './components/Footer'
@@ -67,7 +70,7 @@ const Router = StackNavigator(
     CollectionForm: { screen: CollectionForm },
   },
   {
-    initialRouteName: 'Collections',
+    initialRouteName: 'Home',
     // navigationOptions: {
     // header: Header,
     // },
