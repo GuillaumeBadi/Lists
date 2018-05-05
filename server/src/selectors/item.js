@@ -4,9 +4,23 @@ const knex = require('../drivers/knex')
     async findById(id) {
       return knex('items').select('*').where({ id }).first()
     },
-    async findByIds(id) {
-      return knex('items').select('*').whereIn(ids)
+
+    async findByIds(ids) {
+      const items = await knex('items').select('*').whereIn('id', ids)
+
+      return ids.map(id => items.find(item => Number(item.id) === Number(id)))
     },
+
+    async findByCollections(collectionIds) {
+      const items = await knex('items')
+        .select('*')
+        .whereIn('collectionId', collectionIds)
+
+      const itemsByCollection = groupBy(items, 'collectionId')
+
+      return collectionIds.map(collectionId => itemsByCollection[collectionId] || [])
+    },
+
     async find({ limit, offset }) {
       const query = knex('items').select('*')
 
@@ -15,6 +29,7 @@ const knex = require('../drivers/knex')
 
       return query
     },
+
     async count() {
       const [{ count }] = await knex('items').count()
 

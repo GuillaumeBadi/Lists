@@ -8,9 +8,9 @@ module.exports = context => ({
 
 
   async findByIds(ids) {
-    const collections = await knex('collections').select('*').whereIn({ ids })
+    const collections = await knex('collections').select('*').whereIn('id', ids)
 
-    return ids.map(id => collections.find(collection => collection.id === id))
+    return ids.map(id => collections.find(collection => Number(collection.id) === Number(id)))
   },
 
   async findByOwners(ownerIds) {

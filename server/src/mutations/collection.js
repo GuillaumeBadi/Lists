@@ -1,6 +1,6 @@
 const knex = require('../drivers/knex')
 
-module.exports = request => ({
+module.exports = context => ({
   async create(ownerId, payload) {
     const [collection] = await knex('collections')
       .insert({ ownerId, ...payload })
@@ -10,7 +10,11 @@ module.exports = request => ({
   },
   async addItem(collection, itemPayload) {
     const [item] = await knex('items')
-      .insert({ ...itemPayload, collectionId: collection.id })
+      .insert({
+        ...itemPayload,
+        ownerId: context.user.id,
+        collectionId: collection.id
+      })
       .returning('*')
 
     return item
