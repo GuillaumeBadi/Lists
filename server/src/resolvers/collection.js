@@ -1,25 +1,9 @@
 const { find, filter } = require('lodash')
-const collectionSelector = require('../../selectors/collection')
-const userSelector = require('../../selectors/user')
-const collectionMutation = require('../../mutations/collection')
+const collectionSelector = require('../selectors/collection')
+const userSelector = require('../selectors/user')
+const collectionMutation = require('../mutations/collection')
 
-const typeDefs = `
-  type Collection {
-    id: Int!
-    name: String
-    user: User
-    description: String
-    createdAt: String
-    updatedAt: String
-  }
-
-  type CollectionPagination {
-    totalCount: Int
-    results: [Collection]
-  }
-`
-
-const resolvers = {
+module.exports = {
   RootQuery: {
     collections: () => ({})
   },
@@ -44,15 +28,10 @@ const resolvers = {
   Collection: {
     user: (collection, args, request) => userSelector(request).findById(collection.ownerId)
   },
-  CollectionPagination: {
+  CollectionConnection: {
     totalCount: (parent, args, request) =>
       collectionSelector(request).count(),
-    results: (_, { limit, offset }, request) =>
+    nodes: (_, { limit, offset }, request) =>
       collectionSelector(request).find({ limit, offset })
   }
-}
-
-module.exports = {
-  typeDefs: () => [typeDefs],
-  resolvers
 }

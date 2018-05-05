@@ -6,6 +6,11 @@ module.exports = request => ({
   async findById(id) {
     return knex('users').select('*').where({ id }).first()
   },
+  async findByIds(ids) {
+    const users = await knex('users').select('*').whereIn(ids)
+
+    return ids.map(id => users.find(user => user.id === id))
+  },
   async find({ limit, offset }) {
     const query = knex('users').select('*')
 

@@ -7,15 +7,20 @@ require('./drivers/knex')
 const app = require('./app')
 const { onProcessHook } = require('./util/process')
 
-const { PORT } = process.env
+const { HOST, PORT } = process.env
 
 const server = app.listen(PORT, onStart)
 
-function onStart() {
+function onStart(error) {
+  if (error) {
+    console.log('Start error')
+    console.log(error)
+    process.exit(1)
+  }
+
   console.log(`server started on port: ${PORT}`)
-  onProcessHook(() => {
-    server.close()
-  })
+  console.log(`Graphiql playground available at: http://${HOST}:${PORT}/graphiql`)
+  onProcessHook(() => server.close())
 }
 
 onProcessHook((err) => {

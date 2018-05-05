@@ -17,6 +17,7 @@ exports.up = async function (knex, Promise) {
     table.increments().primary()
 
     table.integer('userId')
+    table.jsonb('settings')
 
     table.timestamp('createdAt').defaultTo(knex.fn.now())
     table.timestamp('updatedAt').defaultTo(knex.fn.now())

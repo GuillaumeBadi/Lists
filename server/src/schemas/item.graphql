@@ -1,0 +1,24 @@
+type Item {
+  id: ID!
+  collectionId: ID!
+  index: Int
+  type: String
+  value: String
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+The connection type of item
+"""
+type ItemConnection {
+  """
+  identifies the total count of items in the connection.
+  """
+  totalCount: Int
+
+  """
+  a list of nodes
+  """
+  nodes: [Collection]
+}

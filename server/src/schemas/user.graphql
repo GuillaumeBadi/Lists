@@ -1,0 +1,30 @@
+
+"""
+a user is an individual's account on lists.
+"""
+type User {
+  """
+  a unique identifier
+  """
+  id: ID!
+  email: String
+  username: String
+  jwt: String
+  collections(first: Int): CollectionConnection
+  settings: Settings
+}
+
+"""
+The connection type of user
+"""
+type UserConnection {
+  """
+  identifies the total count of items in the connection.
+  """
+  totalCount: Int
+
+  """
+  a list of nodes
+  """
+  nodes: [User]
+}

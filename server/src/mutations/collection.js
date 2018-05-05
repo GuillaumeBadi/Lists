@@ -19,5 +19,20 @@ module.exports = request => ({
     await knex('items')
       .delete()
       .where({ id, collectionId: collection.id })
-  }
+  },
+  async update(id, payload) {
+    const [collection] = await knex('collections')
+      .update(payload)
+      .where({ id })
+      .returning('*')
+
+    return collection
+  },
+  async delete(id) {
+    const deleted = await knex('collections')
+      .delete()
+      .where({ id })
+
+    return deleted
+  },
 })

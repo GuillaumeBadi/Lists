@@ -45,6 +45,42 @@ For now Lists only use postgreSQL.
 
 ## Routes
 
+# Authentification
+
+## Signup
+
+First create an account
+
+```
+mutation {
+  register(
+    username: "batman"
+    email:"email@comic.dc"
+    password: "000000"
+  ) {
+    username
+    jwt
+  }
+}
+```
+
+## Signin
+
+```
+query {
+  viewer {
+    jwt
+  }
+  
+  authenticate(
+    username: "batman"
+    password: "000000"
+  ) {
+    jwt
+  }
+}
+```
+
 ### Public
 
 #### POST `/authenticate`

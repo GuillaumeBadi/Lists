@@ -4,6 +4,9 @@ const knex = require('../drivers/knex')
     async findById(id) {
       return knex('items').select('*').where({ id }).first()
     },
+    async findByIds(id) {
+      return knex('items').select('*').whereIn(ids)
+    },
     async find({ limit, offset }) {
       const query = knex('items').select('*')
 

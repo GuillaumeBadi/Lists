@@ -51,5 +51,8 @@ module.exports = request => ({
       .returning('*')
 
     return user
-  }
+  },
+  async update(id, payload) {
+    // TODO
+  },
 })

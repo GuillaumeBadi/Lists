@@ -1,0 +1,24 @@
+type Collection {
+  id: ID!
+  name: String
+  ownerId: ID
+  description: String
+  createdAt: String
+  updatedAt: String
+  user: User
+}
+
+"""
+The connection type of collection
+"""
+type CollectionConnection {
+  """
+  identifies the total count of items in the connection.
+  """
+  totalCount: Int
+
+  """
+  a list of nodes
+  """
+  nodes: [Collection]
+}
