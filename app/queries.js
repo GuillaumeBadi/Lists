@@ -10,13 +10,16 @@ export const signIn = gql`
   }
 `
 
-export const userCollections = gql`
+export const getUserCollections = gql`
   query {
     viewer {
       collections {
-        name
-        description
-        index
+        nodes {
+          id
+          name
+          description
+          createdAt
+        }
       }
     }
   }
