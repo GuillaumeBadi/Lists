@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 
-const signIn = gql`
-  query auth($username: String, $password: String) {
+export const signIn = gql`
+  query authenticate($username: String, $password: String) {
     user(username: $username, password: $password) {
       jwt
       id
@@ -10,7 +10,7 @@ const signIn = gql`
   }
 `
 
-const userCollections = gql`
+export const userCollections = gql`
   query {
     viewer {
       collections {

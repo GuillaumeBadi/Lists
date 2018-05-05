@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Button } from 'react-native'
+import { Text, Button, AsyncStorage } from 'react-native'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import styled from 'styled-components/native'
 import { StatusBar } from 'react-native'
-
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-
 import { StackNavigator } from 'react-navigation'
 
+import Input from './components/Input'
+import Auth from './components/Auth'
 import Lists from './components/Lists'
 import Login from './components/Login'
 import Feed from './components/Feed'
@@ -19,9 +19,20 @@ const View = styled.View`
   width: 100%;
   height: 100%;
   background-color: #f7f7f8;
+  justify-content: center;
+  align-items: center;
 `
 
-const client = new ApolloClient({ uri: 'localhost:3001/graphql' })
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql',
+  async request(operation) {
+    return operation.setContext({
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      },
+    })
+  },
+})
 
 class Root extends Component {
   gotoLists = () => this.props.navigation.navigate('Lists')
@@ -51,7 +62,6 @@ class Root extends Component {
 const Router = StackNavigator(
   {
     Home: { screen: Root },
-    LogIn: { screen: Login },
     Lists: { screen: Lists },
   },
   {
@@ -62,13 +72,43 @@ const Router = StackNavigator(
   },
 )
 
-export default function App() {
-  return (
-    <ApolloProvider client={client}>
-      <View>
-        <StatusBar hidden />
-        <Router />
-      </View>
-    </ApolloProvider>
-  )
+export default class App extends Component {
+  state = {
+    username: '',
+    email: '',
+    password: '',
+  }
+
+  updateCredentials = ({ username, password, email }) => {
+    this.setState({ username, password, email })
+  }
+
+  renderLogged = ({ signOut }) => {
+    return <Lists />
+  }
+
+  render() {
+    const { username, password, email } = this.state
+    return (
+      <ApolloProvider client={client}>
+        <Auth username={username} password={password} email={email}>
+          {({ loading, signOut, signIn, signUp, logged }) => (
+            <View>
+              <StatusBar hidden />
+              {loading && <Text>Loading</Text>}
+              {logged && this.renderLogged({ signOut })}
+              {!logged &&
+              !loading && (
+                <Login
+                  signIn={signIn}
+                  signUp={signUp}
+                  updateCredentials={this.updateCredentials}
+                />
+              )}
+            </View>
+          )}
+        </Auth>
+      </ApolloProvider>
+    )
+  }
 }

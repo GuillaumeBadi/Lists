@@ -8,10 +8,13 @@ const error = require('./error')
 const router = Router()
   .use(auth.router)
   .use(auth.authenticate)
-  .use('/graphql', graphqlHTTP({
-    schema: schema,
-    graphiql: true
-  }))
+  .use(
+    '/graphql',
+    graphqlHTTP({
+      schema: schema,
+      graphiql: true,
+    }),
+  )
   .use(error.notFoundMiddleware)
   .use(error.errorMiddleware)
 
