@@ -7,9 +7,10 @@ import { StatusBar } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { StackNavigator } from 'react-navigation'
 
+import CollectionForm from './components/CollectionForm'
 import Input from './components/Input'
 import Auth from './components/Auth'
-import Lists from './components/Lists'
+import Collections from './components/Collections'
 import Login from './components/Login'
 import Feed from './components/Feed'
 import Footer from './components/Footer'
@@ -35,7 +36,7 @@ const client = new ApolloClient({
 })
 
 class Root extends Component {
-  gotoLists = () => this.props.navigation.navigate('Lists')
+  gotoLists = () => this.props.navigation.navigate('Collections')
 
   renderTabs = ({ activeTab, goToPage }) => {
     return <Footer onSelect={goToPage} index={activeTab} />
@@ -62,13 +63,14 @@ class Root extends Component {
 const Router = StackNavigator(
   {
     Home: { screen: Root },
-    Lists: { screen: Lists },
+    Collections: { screen: Collections },
+    CollectionForm: { screen: CollectionForm },
   },
   {
-    initialRouteName: 'LogIn',
-    navigationOptions: {
-      header: Header,
-    },
+    initialRouteName: 'Collections',
+    // navigationOptions: {
+    // header: Header,
+    // },
   },
 )
 
@@ -84,12 +86,11 @@ export default class App extends Component {
   }
 
   renderLogged = ({ signOut }) => {
-    return <Lists />
+    return <Router />
   }
 
   render() {
     const { username, password, email } = this.state
-    return <Lists />
     return (
       <ApolloProvider client={client}>
         <Auth username={username} password={password} email={email}>
@@ -99,13 +100,13 @@ export default class App extends Component {
               {loading && <Text>Loading</Text>}
               {logged && this.renderLogged({ signOut })}
               {!logged &&
-              !loading && (
-                <Login
-                  signIn={signIn}
-                  signUp={signUp}
-                  updateCredentials={this.updateCredentials}
-                />
-              )}
+                !loading && (
+                  <Login
+                    signIn={signIn}
+                    signUp={signUp}
+                    updateCredentials={this.updateCredentials}
+                  />
+                )}
             </View>
           )}
         </Auth>
