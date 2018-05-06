@@ -4,10 +4,16 @@ const auth = require('../util/auth')
 
 module.exports = request => ({
   async findById(id) {
-    return knex('users').select('*').where({ id }).first()
+    return knex('users')
+      .select('*')
+      .where({ id })
+      .first()
   },
   async findByIds(ids) {
-    const users = await knex('users').select('*').whereIn('id', ids)
+    const users = await knex('users')
+      .select('*')
+      .whereIn('id', ids)
+      .orderBy('createdAt', 'ASC')
 
     return ids.map(id => users.find(user => Number(user.id) === Number(id)))
   },

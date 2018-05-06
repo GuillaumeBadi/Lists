@@ -47,13 +47,7 @@ exports.up = async function (knex, Promise) {
 
     table.integer('index')
 
-    table.enum('type', [
-      'COLLECTION',
-      'URL',
-      'CHECKABLE',
-      'TEXT',
-      'PICTURE'
-    ])
+    table.string('type')
 
     table.jsonb('value')
 

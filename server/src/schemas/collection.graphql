@@ -6,6 +6,7 @@ type Collection {
   createdAt: String
   updatedAt: String
   owner: User
+  items: ItemConnection
 }
 
 """

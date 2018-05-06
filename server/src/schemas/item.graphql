@@ -21,4 +21,24 @@ type ItemConnection {
   a list of nodes
   """
   nodes: [Collection]
+
+  """
+  a list of edges
+  """
+  edges: [ItemEdge]
+}
+
+"""
+The edge type of item
+"""
+type ItemEdge {
+  """
+  a cursor
+  """
+  cursor: String!
+
+  """
+  a node
+  """
+  node: Collection
 }

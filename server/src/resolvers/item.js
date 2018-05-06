@@ -7,7 +7,9 @@ module.exports = {
   },
   RootMutation: {
   },
-  Item: { },
+  Item: {
+    value: (item) => JSON.stringify(item.value)
+  },
   ItemConnection: {
     totalCount: () => itemSelector.count(),
     nodes: (_, { limit, offset }) => itemSelector.find({ limit, offset })
