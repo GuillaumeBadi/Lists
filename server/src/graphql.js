@@ -16,6 +16,22 @@ const collectionSelector = require('./selectors/collection')
 const auth = require('./util/auth')
 const { Forbidden } = require('./util/errors')
 
+function multiLoader(createLoader) {
+  const cache = new Map()
+
+  return args => {
+    const cacheKey = JSON.stringify(args)
+
+    if (cache.has(cacheKey)) return cache.get(cacheKey)
+
+    const loader = createLoader(args)
+
+    cache.set(cacheKey, loader)
+
+    return loader
+  }
+}
+
 // Generate the graphql schema
 const schema = makeExecutableSchema({
   typeDefs,
@@ -39,6 +55,7 @@ async function populateUser(context, token) {
 
   if (context.user) {
     context.loaders.user.prime('me', context.user)
+    context.loaders.user.prime(context.user.id, context.user)
   }
 }
 
@@ -47,17 +64,22 @@ module.exports = graphqlExpress(async request => {
 
   // Initialize loaders
   context.loaders.user = new DataLoader(ids =>
-    userSelector(request).findByIds(ids))
+    userSelector(context).findByIds(ids))
   context.loaders.collection = new DataLoader(ids =>
-    collectionSelector(request).findByIds(ids))
-  context.loaders.collectionsByOwner = new DataLoader(async ids => {
-    const collectionsByOwner = await collectionSelector(request).findByOwners(ids)
+    collectionSelector(context).findByIds(ids))
 
-    collectionsByOwner.forEach(collections => collections.forEach(collection =>
-      context.loaders.collection.prime(collection.id, collection)))
+  // Initialize multiLoaders
+  // multi loaders are lazy loaded loaders who can handle arguments
+  context.loaders.collectionsByOwner = multiLoader(args =>
+    new DataLoader(async ids => {
+      const collectionsByOwner = await collectionSelector(context).findByOwners(ids, args)
 
-    return collectionsByOwner
-  })
+      collectionsByOwner.forEach(collections => collections.forEach(collection =>
+        context.loaders.collection.prime(collection.id, collection)))
+
+      return collectionsByOwner
+    }))
+
 
   // Try to set context.user
   const token = extractToken(request)

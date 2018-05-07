@@ -9,6 +9,7 @@ const schemas = [
   fs.readFileSync(path.join(__dirname, "user.graphql"), "utf8")
 ].concat()
 
+// Just for syntax highlighting /!\ warn: do not use template variables
 const gql = ([str]) => str
 
 const RootQuery = gql`
@@ -36,8 +37,15 @@ const RootMutation = gql`
       description: String
     ): Collection
 
+    updateCollection (
+      id: ID!
+      name: String
+      description: String
+    ) : Collection
+
+    removeCollection (id: ID!) : Collection
+
     addCollectionItem (
-      ownerId: Int!
       collectionId: Int!
       type: String!
       value: String!

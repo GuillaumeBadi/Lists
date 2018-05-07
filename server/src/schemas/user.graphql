@@ -10,7 +10,12 @@ type User {
   email: String
   username: String
   jwt: String
-  collections(first: Int): CollectionConnection
+  collections(
+    first: Int
+    last: Int
+    after: String
+    before: String
+  ): CollectionConnection
   settings: Settings
 }
 

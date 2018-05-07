@@ -1,6 +1,6 @@
 const knex = require('../drivers/knex')
 
-module.exports = request => ({
+module.exports = context => ({
   async create(ownerId, payload) {
     const [collection] = await knex('collections')
       .insert({ ownerId, ...payload })
@@ -8,9 +8,24 @@ module.exports = request => ({
 
     return collection
   },
-  async addItem(collection, itemPayload) {
+  async addItem(collection, { type, value }) {
+    // make sure to insert the correct index
+    const last = await knex('items')
+      .where('collectionId', collection.id)
+      .orderBy('index', 'DESC')
+      .select('index')
+      .first()
+
+    const index = last ? last.index + 1 : 0
+
     const [item] = await knex('items')
-      .insert({ ...itemPayload, collectionId: collection.id })
+      .insert({
+        type,
+        index,
+        value: JSON.parse(value),
+        ownerId: context.user.id,
+        collectionId: collection.id
+      })
       .returning('*')
 
     return item

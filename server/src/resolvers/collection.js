@@ -8,27 +8,50 @@ module.exports = {
     collections: () => ({})
   },
   RootMutation: {
-    async createCollection(_, payload, ctx) {
-      const collection = await collectionMutation(ctx).create(ctx.user.id, payload)
+    createCollection: async (_, args, ctx) => {
+      const collection = await collectionMutation(ctx).create(ctx.user.id, args)
 
       ctx.loaders.collection.prime(collection.id, collection)
 
       return collection
     },
-    async addCollectionItem(_, payload, ctx) {
-      const collection = await collectionSelector(ctx).findById(payload.collectionId)
+    updateCollection: async (_, { id, name, description }, ctx) => {
+      const exists = await ctx.loaders.collection.load(id)
+
+      if (!exists) throw new Error('Collection not found')
+
+      const collection = await collectionMutation(ctx).update(id, {
+        name,
+        description
+      })
+
+      ctx.loaders.collection.clear(collection.id)
+
+      return collection
+    },
+    removeCollection: async (_, { id }, ctx) => {
+      const collection = await ctx.loaders.collection.load(id)
+
+      if (!collection) throw new Error('Collection not found')
+
+      await collectionMutation(ctx).delete(id)
+
+      return collection
+    },
+    async addCollectionItem(_, { collectionId, type, value }, ctx) {
+      const collection = await ctx.loaders.collection.load(collectionId)
 
       if (!collection) {
         throw new ResourceNotFoundError('Collection not found')
       }
 
-      const item = await collectionMutation(ctx).addItem(collection, payload)
+      const item = await collectionMutation(ctx).addItem(collection, { type, value })
 
       return item
     }
   },
   Collection: {
-    user: (collection, args, ctx) => userSelector(ctx).findById(collection.ownerId)
+    owner: (collection, args, ctx) => ctx.loaders.user.load(collection.ownerId)
   },
   CollectionConnection: {
     totalCount: (parent, args, ctx) =>

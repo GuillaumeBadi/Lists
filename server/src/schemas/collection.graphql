@@ -5,7 +5,8 @@ type Collection {
   description: String
   createdAt: String
   updatedAt: String
-  user: User
+  owner: User
+  items: ItemConnection
 }
 
 """
