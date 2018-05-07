@@ -15,14 +15,14 @@ module.exports = {
       ctx.user = await auth.checkAuthorization(token)
 
       return ctx.user
-    }
+    },
   },
   RootMutation: {
     signup: async (_, payload, ctx) => {
       ctx.user = await userMutation(ctx).create(payload)
 
-      return user
-    }
+      return ctx.user
+    },
   },
   User: {
     collections: async (user, args, ctx) => {
@@ -35,12 +35,11 @@ module.exports = {
         return null
       }
       return auth.getAuthorization(user)
-    }
+    },
   },
   UserConnection: {
-    totalCount: (parent, args, ctx) =>
-      userSelector(ctx).count(),
+    totalCount: (parent, args, ctx) => userSelector(ctx).count(),
     nodes: (_, { limit, offset }, ctx) =>
-      userSelector(ctx).find({ limit, offset })
-  }
+      userSelector(ctx).find({ limit, offset }),
+  },
 }

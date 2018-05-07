@@ -11,14 +11,10 @@ export const signUp = gql`
 `
 
 export const createCollection = gql`
-  mutation createCollection(
-    $name: String
-    $description: String
-    $owner: String
-  ) {
-    createCollection(name: $name, description: $description, owner: $owner) {
-      id
+  mutation createCollection($name: String!, $description: String) {
+    createCollection(name: $name, description: $description) {
       name
+      createdAt
       description
     }
   }

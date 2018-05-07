@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
-import { graphql, compose } from 'react-apollo'
 import styled from 'styled-components/native'
 
 import { signUp } from '../mutations'
-import Button from './Button'
+import { Button } from 'react-native'
 import Input from './Input'
 
 const Container = styled.View`
@@ -34,10 +33,12 @@ class Login extends Component {
   }
 
   signUp = () => {
+    console.log('signup login')
     this.props.signUp()
   }
 
   signIn = () => {
+    console.log('signin login')
     this.props.signIn()
   }
 
@@ -62,7 +63,7 @@ class Login extends Component {
             value={password}
             onChangeText={this.update('password')}
           />
-          <Button onPress={this.signUp}>SignUp</Button>
+          <Button title="SignUp" onPress={this.signUp} />
         </Item>
         <Item>
           <Input
@@ -75,11 +76,11 @@ class Login extends Component {
             value={password}
             onChangeText={this.update('password')}
           />
-          <Button onPress={this.signIn}>SignIn</Button>
+          <Button title="signIn" onPress={this.signIn} />
         </Item>
       </Container>
     )
   }
 }
 
-export default graphql(signUp)(Login)
+export default Login

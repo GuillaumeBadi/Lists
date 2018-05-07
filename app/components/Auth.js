@@ -4,7 +4,7 @@ import { styled } from 'styled-components/native'
 import { graphql, compose, ApolloConsumer } from 'react-apollo'
 
 import { signUp } from '../mutations'
-import { signIn } from '../queries'
+import { signIn, viewer } from '../queries'
 
 class Auth extends Component {
   state = {
@@ -13,20 +13,15 @@ class Auth extends Component {
   }
 
   async componentDidMount() {
-    if (!!await AsyncStorage.getItem('token')) {
-      return this.setState({
-        loading: false,
-        logged: true,
-      })
-    }
-
-    return this.setState({ loading: false })
+    const token = await AsyncStorage.getItem('token')
+    return this.setState({ logged: !!token, loading: false })
   }
 
   signIn = client => async () => {
+    console.log('signin')
     const { data } = await client
       .query({ query: signIn, variables: { username, password } })
-      .then(({ data: { authenticate: { jwt } } }) => {
+      .then(({ data: { signin: { jwt } } }) => {
         this.setState({ loading: true }, () => {
           AsyncStorage.setItem('token', jwt)
           this.setState({ loading: false, logged: true })
@@ -41,7 +36,7 @@ class Auth extends Component {
     }
     this.props
       .signUp({ variables: { email, password, username } })
-      .then(({ data: { register: { jwt } } }) => {
+      .then(({ data: { signup: { jwt } } }) => {
         this.setState({ loading: true }, () => {
           AsyncStorage.setItem('token', jwt)
           this.setState({ loading: false, logged: true })
@@ -52,13 +47,15 @@ class Auth extends Component {
 
   signOut = async () => {
     this.setState({ loading: true })
-    await AsyncStorage.removeItem('token')
+    await AsyncStorage.clear()
     this.setState({ loading: false, logged: false })
   }
 
   render() {
     const { children } = this.props
     const { logged, loading } = this.state
+
+    console.log({ logged })
 
     return (
       <ApolloConsumer>
@@ -69,12 +66,11 @@ class Auth extends Component {
             signOut: this.signOut,
             logged,
             loading,
-          })}
+          })
+        }
       </ApolloConsumer>
     )
   }
 }
 
-export default graphql(signIn, {
-  options: ({ username, password }) => ({ variables: { username, password } }),
-})(graphql(signUp, { name: 'signUp' })(Auth))
+export default graphql(viewer)(graphql(signUp, { name: 'signUp' })(Auth))

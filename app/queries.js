@@ -10,9 +10,19 @@ export const signIn = gql`
   }
 `
 
+export const viewer = gql`
+  query {
+    viewer {
+      id
+      username
+    }
+  }
+`
+
 export const getUserCollections = gql`
   query {
     viewer {
+      id
       collections {
         nodes {
           id
