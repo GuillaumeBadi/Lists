@@ -39,21 +39,16 @@ const Subscribers = styled.Text`
 
 class Hero extends Component {
   render() {
+    const { image, title, description, annotation } = this.props
+
     return (
       <Container>
         <TitleContainer>
-          <Picture
-            source={{
-              uri:
-                'https://images.unsplash.com/photo-1506055306-3b99905bc598?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0a26193477f9b61f28b23dc01b7eec2&auto=format&fit=crop&w=800&q=80',
-            }}
-          />
+          {image && <Picture source={{ uri: image }} />}
           <TitleInfoContainer>
-            <Title>Daily House Plants</Title>
-            <Content>
-              A currated list of nice house plants articles and resources 🌿
-            </Content>
-            <Subscribers>500+ Subscribers</Subscribers>
+            <Title>{title}</Title>
+            {description && <Content>{description}</Content>}
+            {annotation && <Subscribers>{annotation}</Subscribers>}
           </TitleInfoContainer>
         </TitleContainer>
       </Container>
