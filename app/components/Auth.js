@@ -54,9 +54,6 @@ class Auth extends Component {
   render() {
     const { children } = this.props
     const { logged, loading } = this.state
-
-    console.log({ logged })
-
     return (
       <ApolloConsumer>
         {client =>
@@ -66,8 +63,7 @@ class Auth extends Component {
             signOut: this.signOut,
             logged,
             loading,
-          })
-        }
+          })}
       </ApolloConsumer>
     )
   }

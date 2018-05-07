@@ -19,9 +19,7 @@ import Footer from './components/Footer'
 import Header from './components/Feed/Header'
 import Items from './components/Items'
 
-const View = styled.View`
-  flex: 1;
-`
+const View = styled.View`flex: 1;`
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -136,13 +134,13 @@ export default class App extends Component {
               {loading && <Text>Loading</Text>}
               {logged && this.renderLogged({ signOut })}
               {!logged &&
-                !loading && (
-                  <Login
-                    signIn={signIn}
-                    signUp={signUp}
-                    updateCredentials={this.updateCredentials}
-                  />
-                )}
+              !loading && (
+                <Login
+                  signIn={signIn}
+                  signUp={signUp}
+                  updateCredentials={this.updateCredentials}
+                />
+              )}
             </View>
           )}
         </Auth>

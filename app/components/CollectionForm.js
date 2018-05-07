@@ -25,13 +25,9 @@ const Form = styled.View`
 
 const List = styled.ScrollView``
 
-const Items = styled.View`
-  padding-top: 48px;
-`
+const Items = styled.View`padding-top: 48px;`
 
-const PaddedDescription = styled(Description)`
-  padding-top: 6px;
-`
+const PaddedDescription = styled(Description)`padding-top: 6px;`
 
 const InputContainer = styled.View`
   padding-top: 12px;
