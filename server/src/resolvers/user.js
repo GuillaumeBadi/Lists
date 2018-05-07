@@ -15,7 +15,7 @@ module.exports = {
       ctx.user = await auth.checkAuthorization(token)
 
       return ctx.user
-    }
+    },
   },
   RootMutation: {
     signup: async (_, payload, ctx) => {
@@ -37,7 +37,7 @@ module.exports = {
         return null
       }
       return auth.getAuthorization(user)
-    }
+    },
   },
   UserConnection: {
     // FIXME
@@ -45,6 +45,6 @@ module.exports = {
       userSelector(ctx).count(),
     // FIXME
     nodes: (_, { limit, offset }, ctx) =>
-      userSelector(ctx).find({ limit, offset })
-  }
+      userSelector(ctx).find({ limit, offset }),
+  },
 }

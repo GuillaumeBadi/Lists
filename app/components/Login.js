@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
+<<<<<<< HEAD
 import styled from 'styled-components/native'
 
-import { AuthSession } from 'expo'
-
+import { signUp } from '../mutations'
 import { Button } from 'react-native'
+=======
+import { graphql, compose } from 'react-apollo'
+import styled from 'styled-components/native'
+
+import { signUp } from '../mutations'
+import Button from './Button'
+>>>>>>> 4fdb43b2a16aa9abf04cd49764da6c2ac0d36822
+import Input from './Input'
 
 const Container = styled.View`
   flex: 1;
@@ -11,20 +20,11 @@ const Container = styled.View`
   justify-content: center;
 `
 
-const Label = styled.Text``
-
 const Item = styled.View`
   display: flex;
   flex-direction: column;
-  width: 200px;
-  margin: 8px;
-`
-
-const Input = styled.TextInput`
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  padding: 4px;
-  min-width: 200px;
+  width: 300px;
+  margin: 16px;
 `
 
 class Login extends Component {
@@ -34,8 +34,18 @@ class Login extends Component {
     password: '',
   }
 
-  update = field => ({ e: { target: { value } } }) => {
-    this.setState({ [field]: value })
+  update = field => value => {
+    this.setState({ [field]: value }, () =>
+      this.props.updateCredentials(this.state),
+    )
+  }
+
+  signUp = () => {
+    this.props.signUp()
+  }
+
+  signIn = () => {
+    this.props.signIn()
   }
 
   render() {
@@ -44,38 +54,39 @@ class Login extends Component {
     return (
       <Container>
         <Item>
-          <Item>
-            <Label>Username</Label>
-            <Input value={username} onPress={this.update('username')} />
-          </Item>
-          <Item>
-            <Label>Email</Label>
-            <Input value={email} onPress={this.update('email')} />
-          </Item>
-          <Item>
-            <Label>Password</Label>
-            <Input value={email} onPress={this.update('password')} />
-          </Item>
-          <Item>
-            <Button color="#2275fa" title="SignUp" onPress={() => null} />
-          </Item>
+          <Input
+            label="Username"
+            value={username}
+            onChangeText={this.update('username')}
+          />
+          <Input
+            label="Email"
+            value={email}
+            onChangeText={this.update('email')}
+          />
+          <Input
+            label="Password"
+            value={password}
+            onChangeText={this.update('password')}
+          />
+          <Button title="SignUp" onPress={this.signUp} />
         </Item>
         <Item>
-          <Item>
-            <Label>Username</Label>
-            <Input value={username} onPress={this.update('username')} />
-          </Item>
-          <Item>
-            <Label>Password</Label>
-            <Input value={email} onPress={this.update('password')} />
-          </Item>
-          <Item>
-            <Button color="#2275fa" title="SignIn" onPress={() => null} />
-          </Item>
+          <Input
+            label="Username"
+            value={username}
+            onChangeText={this.update('username')}
+          />
+          <Input
+            label="Password"
+            value={password}
+            onChangeText={this.update('password')}
+          />
+          <Button title="signIn" onPress={this.signIn} />
         </Item>
       </Container>
     )
   }
 }
 
-export default Login
+export default graphql(signUp)(Login)
