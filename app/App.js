@@ -11,7 +11,6 @@ import { Font } from 'expo'
 import ListItem from './components/ListItem'
 import CollectionForm from './components/CollectionForm'
 import Input from './components/Input'
-import Auth from './components/Auth'
 import Collections from './components/Collections'
 import Login from './components/Login'
 import Feed from './components/Feed'
@@ -19,7 +18,9 @@ import Footer from './components/Footer'
 import Header from './components/Feed/Header'
 import Items from './components/Items'
 
-const View = styled.View`flex: 1;`
+const View = styled.View`
+  flex: 1;
+`
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -72,12 +73,13 @@ class Root extends Component {
 const Router = StackNavigator(
   {
     Home: { screen: Root },
+    Login: { screen: Login },
     Collections: { screen: Collections },
     CollectionForm: { screen: CollectionForm },
     Items: { screen: Items },
   },
   {
-    initialRouteName: 'Collections',
+    initialRouteName: 'Login',
     navigationOptions: {
       header: null,
     },
@@ -86,9 +88,6 @@ const Router = StackNavigator(
 
 export default class App extends Component {
   state = {
-    username: '',
-    email: '',
-    password: '',
     loaded: false,
   }
 
@@ -110,16 +109,8 @@ export default class App extends Component {
     this.setState({ loaded: true })
   }
 
-  updateCredentials = ({ username, password, email }) => {
-    this.setState({ username, password, email })
-  }
-
-  renderLogged = ({ signOut }) => {
-    return <Router signOut={signOut} />
-  }
-
   render() {
-    const { username, password, email, loaded } = this.state
+    const { loaded } = this.state
 
     if (!loaded) {
       return null
@@ -127,23 +118,7 @@ export default class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <Auth username={username} password={password} email={email}>
-          {({ loading, signOut, signIn, signUp, logged }) => (
-            <View>
-              <StatusBar hidden />
-              {loading && <Text>Loading</Text>}
-              {logged && this.renderLogged({ signOut })}
-              {!logged &&
-              !loading && (
-                <Login
-                  signIn={signIn}
-                  signUp={signUp}
-                  updateCredentials={this.updateCredentials}
-                />
-              )}
-            </View>
-          )}
-        </Auth>
+        <Router />
       </ApolloProvider>
     )
   }

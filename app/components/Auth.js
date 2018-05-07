@@ -18,7 +18,6 @@ class Auth extends Component {
   }
 
   signIn = client => async () => {
-    console.log('signin')
     const { data } = await client
       .query({ query: signIn, variables: { username, password } })
       .then(({ data: { signin: { jwt } } }) => {
@@ -63,7 +62,8 @@ class Auth extends Component {
             signOut: this.signOut,
             logged,
             loading,
-          })}
+          })
+        }
       </ApolloConsumer>
     )
   }

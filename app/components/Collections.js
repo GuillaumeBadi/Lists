@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { ApolloConsumer } from 'react-apollo'
 import styled from 'styled-components/native'
-import { graphql } from 'react-apollo'
-import { Text, ScrollView } from 'react-native'
+import { withApollo } from 'react-apollo'
+import { Text, ScrollView, AsyncStorage } from 'react-native'
 
 import { getUserCollections } from '../queries'
 
@@ -25,6 +26,25 @@ const Items = styled.View`
 `
 
 class Collections extends Component {
+  state = {
+    nodes: [],
+  }
+
+  async componentWillMount() {
+    const { data } = await this.props.client.query({
+      query: getUserCollections,
+    })
+
+    console.log(data)
+
+    if (data.viewer && data.viewer.collections) {
+      return this.setState({ nodes: data.viewer.collections.nodes })
+    }
+
+    await AsyncStorage.removeItem('token')
+    return this.props.navigation.navigate('Login')
+  }
+
   collectionForm = () => {
     this.props.navigation.push('CollectionForm')
   }
@@ -44,28 +64,8 @@ class Collections extends Component {
     this.props.navigation.push('Items')
   }
 
-  error = () => {
-    const { error } = this.props
-    return this.props.signOut()
-  }
-
   render() {
-    const { loading, data } = this.props
-
-    if (data.error) {
-      console.log('error', data.error)
-      return null
-    }
-
-    if (loading) {
-      console.log('loading')
-      return null
-    }
-
-    if (!data.viewer) {
-      console.log('no viewer')
-      return null
-    }
+    const { nodes } = this.state
 
     return (
       <Container>
@@ -74,7 +74,7 @@ class Collections extends Component {
           <List>
             <Title>Your collections</Title>
             <Items>
-              {data.viewer.collections.nodes.map((collection, i) => (
+              {nodes.map((collection, i) => (
                 <ListItem
                   key={i}
                   onPress={this.openCollection}
@@ -90,4 +90,4 @@ class Collections extends Component {
   }
 }
 
-export default graphql(getUserCollections)(Collections)
+export default withApollo(Collections)

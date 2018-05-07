@@ -10,6 +10,19 @@ export const signUp = gql`
   }
 `
 
+export const addCollectionItem = gql`
+  mutation addCollectionItem(
+    $collectionId: Int!
+    $type: String!
+    $value: String!
+  ) {
+    addCollectionItem(collectionId: $collectionId, type: $type, value: $value) {
+      value
+      id
+    }
+  }
+`
+
 export const createCollection = gql`
   mutation createCollection($name: String!, $description: String) {
     createCollection(name: $name, description: $description) {

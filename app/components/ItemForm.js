@@ -9,8 +9,8 @@ import { Button } from 'react-native'
 import { Title, Description } from './Text'
 import Content from './Content'
 import Header from './Header'
-import { createCollection } from '../mutations'
-import { getUserCollections, getUsername } from '../queries'
+import { addCollectionItem } from '../mutations'
+import { getCollectionItems } from '../queries'
 
 const Container = styled.View`
   flex: 1;

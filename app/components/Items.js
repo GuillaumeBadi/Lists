@@ -13,12 +13,6 @@ const Container = styled.View`
   background-color: white;
 `
 
-const Items = styled.View`
-  padding-top: 48px;
-  padding-bottom: 96px;
-  flex: 1;
-`
-
 const List = styled.ScrollView``
 
 class Items extends Component {
@@ -48,16 +42,6 @@ class Items extends Component {
           <List>
             <Title>Your collections</Title>
             <Description>ok</Description>
-            <Items>
-              {data.viewer.collections.nodes.map((collection, i) => (
-                <ListItem
-                  key={i}
-                  onPress={this.openCollection}
-                  title={collection.name}
-                  description={collection.description}
-                />
-              ))}
-            </Items>
           </List>
         </Content>
       </Container>
