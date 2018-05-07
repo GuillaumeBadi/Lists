@@ -18,7 +18,7 @@ module.exports = context => ({
   async findByOwners(ownerIds, args) {
     let queries
 
-    if (ownerIds.length >= 100) throw new Error('Overcomplicated query')
+    if (ownerIds.length >= 1000) throw new Error('Overcomplicated query')
     if (args.first && args.last) throw new Error('Argument first and last are incompatible')
     if (args.after && args.before) throw new Error('Argument first and last are incompatible')
 
@@ -36,13 +36,10 @@ module.exports = context => ({
 
     let collections = await Promise.all(queries)
 
-    // flatten array
-    collections = Array.prototype.concat.apply(...collections, [])
-
-    const collectionsByOwner = groupBy(collections, 'ownerId')
-
-    return ownerIds.map(ownerId =>
-      orderBy(collectionsByOwner[ownerId], ['createdAt', 'id'], ['desc', 'desc']) || [])
+    return ownerIds.map((current, index) => {
+      if (!collections[index]) return []
+      return orderBy(collections[index], ['createdAt', 'id'], ['desc', 'desc'])
+    })
   },
 
   // TODO to trash

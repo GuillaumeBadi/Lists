@@ -5,13 +5,24 @@ module.exports = {
   RootQuery: {
     item: (_, { id }) => itemSelector.findById(id)
   },
-  RootMutation: {
-  },
-  Item: {
-    value: (item) => JSON.stringify(item.value)
-  },
+  RootMutation: { },
+  Item: { },
   ItemConnection: {
     totalCount: () => itemSelector.count(),
-    nodes: (_, { limit, offset }) => itemSelector.find({ limit, offset })
+    nodes: ({ nodes }) => nodes
+  },
+  ListItem: {},
+  TextItem: {},
+  CheckableItem: {},
+  LinkItem: {},
+  ItemValue: {
+    __resolveType(obj) {
+      switch (obj.type) {
+        case 'LIST': return 'ListItem'
+        case 'TEXT': return 'TextItem'
+        case 'CHECKABLE': return 'CheckableItem'
+        case 'LINK': return 'LinkItem'
+      }
+    }
   }
 }

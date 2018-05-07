@@ -11,7 +11,7 @@ type User {
   username: String
   jwt: String
   collections(
-    first: Int
+    first: Int = 10
     last: Int
     after: String
     before: String

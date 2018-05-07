@@ -6,7 +6,12 @@ type Collection {
   createdAt: String
   updatedAt: String
   owner: User
-  items: ItemConnection
+  items(
+    first: Int = 50
+    last: Int
+    after: String
+    before: String
+  ): ItemConnection
 }
 
 """

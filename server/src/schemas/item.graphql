@@ -3,7 +3,7 @@ type Item {
   collectionId: ID!
   index: Int
   type: String
-  value: String
+  value: ItemValue
   createdAt: String
   updatedAt: String
 }
@@ -20,7 +20,7 @@ type ItemConnection {
   """
   a list of nodes
   """
-  nodes: [Collection]
+  nodes: [Item]
 
   """
   a list of edges
@@ -42,3 +42,28 @@ type ItemEdge {
   """
   node: Collection
 }
+
+type ListItem {
+  type: String
+  name: String
+  description: String
+}
+
+type TextItem {
+  type: String
+  textPreview: String
+  text: String
+}
+
+type CheckableItem {
+  type: String
+  checked: String
+  text: String
+}
+
+type LinkItem {
+  type: String
+  url: String
+}
+
+union ItemValue = ListItem | TextItem | CheckableItem | LinkItem

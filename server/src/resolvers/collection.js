@@ -5,7 +5,8 @@ const collectionMutation = require('../mutations/collection')
 
 module.exports = {
   RootQuery: {
-    collections: () => ({})
+    collections: () => ({}),
+    collection: (_, { id }, ctx) => ctx.loaders.collection.load(id)
   },
   RootMutation: {
     createCollection: async (_, args, ctx) => {
@@ -51,7 +52,12 @@ module.exports = {
     }
   },
   Collection: {
-    owner: (collection, args, ctx) => ctx.loaders.user.load(collection.ownerId)
+    owner: (collection, args, ctx) => ctx.loaders.user.load(collection.ownerId),
+    items: async (collection, args, ctx) => {
+      const items = await ctx.loaders.itemsByCollection(args).load(collection.id)
+
+      return { nodes: items }
+    },
   },
   CollectionConnection: {
     totalCount: (parent, args, ctx) =>

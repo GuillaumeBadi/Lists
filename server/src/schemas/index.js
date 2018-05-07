@@ -19,6 +19,7 @@ const RootQuery = gql`
     users(offset: Int, limit: Int = 50): UserConnection
     signin (username: String!, password: String!): User
     collections(offset: Int, limit: Int = 50): CollectionConnection
+    collection(id: Int): Collection
     item(id: Int!): Item
   }
 `

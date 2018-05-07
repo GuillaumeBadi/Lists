@@ -13,6 +13,7 @@ const Settings = require('./resolvers/settings')
 
 const userSelector = require('./selectors/user')
 const collectionSelector = require('./selectors/collection')
+const itemSelector = require('./selectors/item')
 const auth = require('./util/auth')
 const { Forbidden } = require('./util/errors')
 
@@ -67,6 +68,8 @@ module.exports = graphqlExpress(async request => {
     userSelector(context).findByIds(ids))
   context.loaders.collection = new DataLoader(ids =>
     collectionSelector(context).findByIds(ids))
+  context.loaders.item = new DataLoader(ids =>
+    itemSelector(context).findByIds(ids))
 
   // Initialize multiLoaders
   // multi loaders are lazy loaded loaders who can handle arguments
@@ -78,6 +81,15 @@ module.exports = graphqlExpress(async request => {
         context.loaders.collection.prime(collection.id, collection)))
 
       return collectionsByOwner
+    }))
+  context.loaders.itemsByCollection = multiLoader(args =>
+    new DataLoader(async ids => {
+      const itemsByCollection = await itemSelector(context).findByCollections(ids, args)
+
+      itemsByCollection.forEach(items => items.forEach(item =>
+        context.loaders.item.prime(item.id, item)))
+
+      return itemsByCollection
     }))
 
 
