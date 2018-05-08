@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
-
 const Container = styled.View`
   padding-top: 48px;
   padding-right: 48px;

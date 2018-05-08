@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
-import { graphql } from 'react-apollo'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import Input from './Input'
-import { Button } from 'react-native'
 
 import { Title, Description } from './Text'
 import Content from './Content'
 import Header from './Header'
-import { addCollectionItem } from '../mutations'
-import { getCollectionItems } from '../queries'
 
 const Container = styled.View`
   flex: 1;
@@ -23,15 +19,7 @@ const Form = styled.View`
   padding-bottom: 24px;
 `
 
-const List = styled.ScrollView``
-
-const Items = styled.View`
-  padding-top: 48px;
-`
-
-const PaddedDescription = styled(Description)`
-  padding-top: 6px;
-`
+const PaddedDescription = styled(Description)`padding-top: 6px;`
 
 const InputContainer = styled.View`
   padding-top: 12px;
@@ -44,23 +32,10 @@ const Submit = styled(Content)`
   padding-bottom: 24px;
 `
 
-class CollectionForm extends Component {
+class CollectionFormView extends Component {
   state = {
     name: '',
     description: '',
-  }
-
-  submit = async () => {
-    const { name, description } = this.state
-    await this.props.createCollection({
-      variables: { name, description },
-      update: (store, { data: { createCollection } }) => {
-        const data = store.readQuery({ query: getUserCollections })
-        data.viewer.collections.nodes.push(createCollection)
-        store.writeQuery({ query: getUserCollections, data })
-      },
-    })
-    this.props.navigation.pop()
   }
 
   renderBack = () => {
@@ -75,6 +50,8 @@ class CollectionForm extends Component {
   }
 
   render() {
+    const { onSubmit } = this.props
+
     return (
       <Container>
         <Header renderLeft={this.renderBack} />
@@ -105,7 +82,7 @@ class CollectionForm extends Component {
         </Content>
         <Submit>
           <Icon
-            onPress={this.submit}
+            onPress={() => onSubmit(this.state.name, this.state.description)}
             name="md-arrow-forward"
             size={24}
             color="#424242"
@@ -116,6 +93,4 @@ class CollectionForm extends Component {
   }
 }
 
-export default graphql(createCollection, { name: 'createCollection' })(
-  CollectionForm,
-)
+export default CollectionFormView

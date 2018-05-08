@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import { ApolloConsumer } from 'react-apollo'
 import styled from 'styled-components/native'
-import { withApollo } from 'react-apollo'
-import { Text, ScrollView, AsyncStorage } from 'react-native'
-
-import { getUserCollections } from '../queries'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import ListItem from './ListItem'
@@ -25,24 +20,9 @@ const Items = styled.View`
   flex: 1;
 `
 
-class Collections extends Component {
+class CollectionsView extends Component {
   state = {
     nodes: [],
-  }
-
-  async componentWillMount() {
-    const { data } = await this.props.client.query({
-      query: getUserCollections,
-    })
-
-    console.log(data)
-
-    if (data.viewer && data.viewer.collections) {
-      return this.setState({ nodes: data.viewer.collections.nodes })
-    }
-
-    await AsyncStorage.removeItem('token')
-    return this.props.navigation.navigate('Login')
   }
 
   collectionForm = () => {
@@ -60,12 +40,12 @@ class Collections extends Component {
     )
   }
 
-  openCollection = () => {
-    this.props.navigation.push('Items')
+  openCollection = id => () => {
+    this.props.navigation.push('Items', { id })
   }
 
   render() {
-    const { nodes } = this.state
+    const { collections } = this.props
 
     return (
       <Container>
@@ -74,10 +54,10 @@ class Collections extends Component {
           <List>
             <Title>Your collections</Title>
             <Items>
-              {nodes.map((collection, i) => (
+              {collections.map((collection, i) => (
                 <ListItem
                   key={i}
-                  onPress={this.openCollection}
+                  onPress={this.openCollection(collection.id)}
                   title={collection.name}
                   description={collection.description}
                 />
@@ -90,4 +70,4 @@ class Collections extends Component {
   }
 }
 
-export default withApollo(Collections)
+export default CollectionsView

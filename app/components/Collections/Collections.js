@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
-import Icon from 'react-native-vector-icons/Ionicons'
 
 import CreateCollection from '../CreateCollection'
 import ListItem from '../ListItem'
@@ -17,30 +16,10 @@ const Container = styled.View`
   justify-content: center;
 `
 
-const ButtonContainer = styled.View`
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`
-
 const List = styled.ScrollView`
   width: 100%;
   flex: 1;
   background-color: #fff;
-`
-
-const ItemContainer = styled.View`
-  width: 90%;
-  padding: 8px 16px;
-  margin: 8px;
-  justify-content: center;
-  align-items: center;
-`
-
-const Title = styled.Text`
-  font-size: 24px;
-  font-weight: 500;
-  color: #424242;
 `
 
 class Collections extends Component {
@@ -61,11 +40,7 @@ class Collections extends Component {
       return <Text>Loading</Text>
     }
 
-    const {
-      viewer: {
-        collections: { nodes },
-      },
-    } = data
+    const { viewer: { collections: { nodes } } } = data
 
     return (
       <Container>

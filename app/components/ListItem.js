@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
-import { View, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
 import { ListDescription, Subtitle } from './Text'
 

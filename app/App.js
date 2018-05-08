@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Button, AsyncStorage } from 'react-native'
+import { Text, AsyncStorage } from 'react-native'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import styled from 'styled-components/native'
@@ -8,19 +8,13 @@ import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { StackNavigator } from 'react-navigation'
 import { Font } from 'expo'
 
-import ListItem from './components/ListItem'
-import CollectionForm from './components/CollectionForm'
-import Input from './components/Input'
-import Collections from './components/Collections'
+import Collections from './containers/Collections'
+import Items from './containers/Items'
+import ItemForm from './containers/ItemForm'
+import CollectionForm from './containers/CollectionForm'
 import Login from './components/Login'
-import Feed from './components/Feed'
-import Footer from './components/Footer'
-import Header from './components/Feed/Header'
-import Items from './components/Items'
 
-const View = styled.View`
-  flex: 1;
-`
+const View = styled.View`flex: 1;`
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -36,47 +30,22 @@ const client = new ApolloClient({
 class Root extends Component {
   gotoLists = () => this.props.navigation.navigate('Collections')
 
-  renderTabs = ({ activeTab, goToPage }) => {
-    return <Footer onSelect={goToPage} index={activeTab} />
-  }
-
   render() {
     if (this.state.loaded) {
       return <Collections />
-      return (
-        <ListItem
-          title="House Plant Club"
-          description="Discover a currated list of helpful articles to keep your house plants healthy"
-        />
-      )
     } else {
       return <Text>Loading</Text>
     }
-
-    return (
-      <View>
-        <Header />
-        <ScrollableTabView
-          renderTabBar={this.renderTabs}
-          prerenderingSiblingsNumber={1}
-          tabBarPosition="bottom"
-        >
-          <Feed />
-          <Feed />
-        </ScrollableTabView>
-        <Button title="hello" color="#424242" onPress={this.gotoLists} />
-      </View>
-    )
   }
 }
 
 const Router = StackNavigator(
   {
-    Home: { screen: Root },
     Login: { screen: Login },
     Collections: { screen: Collections },
     CollectionForm: { screen: CollectionForm },
     Items: { screen: Items },
+    ItemForm: { screen: ItemForm },
   },
   {
     initialRouteName: 'Login',

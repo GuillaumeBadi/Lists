@@ -1,7 +1,5 @@
 import React from 'react'
-import styled from 'styled-components/native'
-
-const Container = styled.View``
+import { Button } from 'react-native'
 
 export default function CreateCollection({ onPress }) {
   return <Button title="Add" onPress={onPress} />

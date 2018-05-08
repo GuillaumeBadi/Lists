@@ -4,6 +4,7 @@ import { AsyncStorage } from 'react-native'
 import styled from 'styled-components/native'
 
 import { signUp } from '../mutations'
+import { signIn } from '../queries'
 import { Button } from 'react-native'
 import Input from './Input'
 
@@ -31,7 +32,7 @@ class Login extends Component {
 
   async componentDidMount() {
     const token = await AsyncStorage.getItem('token')
-    if (!!token) {
+    if (token) {
       return this.props.navigation.navigate('Collections')
     } else {
       this.setState({ loading: false })
@@ -44,18 +45,11 @@ class Login extends Component {
 
   signUp = async () => {
     const { username, email, password } = this.state
-    if (!username || !email || !password) {
-      console.error('missing parameters', username, email, password)
-    }
-    try {
-      const { data } = await this.props.signUp({
-        variables: { email, password, username },
-      })
-      await AsyncStorage.setItem('token', data.signup.jwt)
-      this.props.navigation.push('Collections')
-    } catch (e) {
-      console.error(e)
-    }
+    const { data } = await this.props.signUp({
+      variables: { email, password, username },
+    })
+    await AsyncStorage.setItem('token', data.signup.jwt)
+    this.props.navigation.push('Collections')
   }
 
   signIn = client => async () => {
@@ -64,12 +58,8 @@ class Login extends Component {
       query: signIn,
       variables: { username, password },
     })
-    try {
-      await AsyncStorage.setItem('token', data.signin.jwt)
-      this.props.navigation.push('Collections')
-    } catch (e) {
-      console.error(e)
-    }
+    await AsyncStorage.setItem('token', data.signin.jwt)
+    this.props.navigation.push('Collections')
   }
 
   render() {

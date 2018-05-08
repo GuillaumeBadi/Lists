@@ -19,6 +19,16 @@ export const viewer = gql`
   }
 `
 
+export const getCollectionItems = gql`
+  query getCollectionItems($collectionId: Int!) {
+    getCollectionItems {
+      collection(id: $id) {
+        id
+      }
+    }
+  }
+`
+
 export const getUserCollections = gql`
   query {
     viewer {
