@@ -4,6 +4,8 @@ import { gql } from 'apollo-boost'
 
 import ItemFormView from '../components/ItemFormView'
 
+import { GET_COLLECTION_ITEMS } from './Items'
+
 const ADD_COLLECTION_ITEM = gql`
   mutation addCollectionItem(
     $collectionId: Int!
@@ -11,6 +13,7 @@ const ADD_COLLECTION_ITEM = gql`
     $value: String!
   ) {
     addCollectionItem(collectionId: $collectionId, type: $type, value: $value) {
+      __typename
       value {
         ... on LinkItem {
           url
@@ -35,9 +38,24 @@ class ItemForm extends Component {
 
   render() {
     const { navigation } = this.props
+    const { state: { params: { id } } } = navigation
 
     return (
-      <Mutation mutation={ADD_COLLECTION_ITEM}>
+      <Mutation
+        mutation={ADD_COLLECTION_ITEM}
+        update={(cache, { data: { addCollectionItem } }) => {
+          const data = cache.readQuery({
+            query: GET_COLLECTION_ITEMS,
+            variables: { id },
+          })
+          data.collection.items.nodes.unshift(addCollectionItem)
+          cache.writeQuery({
+            query: GET_COLLECTION_ITEMS,
+            variables: { id },
+            data,
+          })
+        }}
+      >
         {addCollectionItem => {
           return (
             <ItemFormView

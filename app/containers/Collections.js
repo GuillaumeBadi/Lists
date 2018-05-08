@@ -6,7 +6,7 @@ import ErrorScreen from './ErrorScreen'
 import LoadingScreen from './LoadingScreen'
 import CollectionsView from '../components/CollectionsView'
 
-const GET_COLLECTIONS = gql`
+export const GET_COLLECTIONS = gql`
   {
     viewer {
       collections {

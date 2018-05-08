@@ -6,7 +6,7 @@ import ErrorScreen from './ErrorScreen'
 import LoadingScreen from './LoadingScreen'
 import ItemsView from '../components/ItemsView'
 
-const GET_COLLECTION_ITEMS = gql`
+export const GET_COLLECTION_ITEMS = gql`
   query getCollectionItems($id: Int!) {
     collection(id: $id) {
       name
