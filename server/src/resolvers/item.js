@@ -3,13 +3,13 @@ const itemSelector = require('../selectors/item')
 
 module.exports = {
   RootQuery: {
-    item: (_, { id }) => itemSelector.findById(id)
+    item: (_, { id }) => itemSelector.findById(id),
   },
-  RootMutation: { },
-  Item: { },
+  RootMutation: {},
+  Item: {},
   ItemConnection: {
     totalCount: () => itemSelector.count(),
-    nodes: ({ nodes }) => nodes
+    nodes: ({ nodes }) => nodes,
   },
   ListItem: {},
   TextItem: {},
@@ -18,11 +18,15 @@ module.exports = {
   ItemValue: {
     __resolveType(obj) {
       switch (obj.type) {
-        case 'LIST': return 'ListItem'
-        case 'TEXT': return 'TextItem'
-        case 'CHECKABLE': return 'CheckableItem'
-        case 'LINK': return 'LinkItem'
+        case 'LIST':
+          return 'ListItem'
+        case 'TEXT':
+          return 'TextItem'
+        case 'CHECKABLE':
+          return 'CheckableItem'
+        case 'LINK':
+          return 'LinkItem'
       }
-    }
-  }
+    },
+  },
 }

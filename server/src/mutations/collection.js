@@ -24,7 +24,7 @@ module.exports = context => ({
         index,
         value: JSON.parse(value),
         ownerId: context.user.id,
-        collectionId: collection.id
+        collectionId: collection.id,
       })
       .returning('*')
 

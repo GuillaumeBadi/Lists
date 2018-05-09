@@ -4,7 +4,6 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import styled from 'styled-components/native'
 import { StatusBar } from 'react-native'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { StackNavigator } from 'react-navigation'
 import { Font } from 'expo'
 
@@ -14,7 +13,7 @@ import ItemForm from './containers/ItemForm'
 import CollectionForm from './containers/CollectionForm'
 import Login from './components/Login'
 
-const View = styled.View`flex: 1;`
+const Layout = styled.View`flex: 1;`
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
@@ -26,18 +25,6 @@ const client = new ApolloClient({
     })
   },
 })
-
-class Root extends Component {
-  gotoLists = () => this.props.navigation.navigate('Collections')
-
-  render() {
-    if (this.state.loaded) {
-      return <Collections />
-    } else {
-      return <Text>Loading</Text>
-    }
-  }
-}
 
 const Router = StackNavigator(
   {
@@ -87,7 +74,10 @@ export default class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <Router />
+        <Layout>
+          <StatusBar hidden />
+          <Router />
+        </Layout>
       </ApolloProvider>
     )
   }

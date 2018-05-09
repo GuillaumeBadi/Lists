@@ -24,25 +24,26 @@ module.exports = {
       ctx.loaders.user.prime(ctx.user.id, ctx.user)
 
       return ctx.user
-    }
+    },
   },
   User: {
     collections: async (user, args, ctx) => {
-      const collections = await ctx.loaders.collectionsByOwner(args).load(user.id)
+      const collections = await ctx.loaders
+        .collectionsByOwner(args)
+        .load(user.id)
 
       return { nodes: collections }
     },
     jwt: (user, args, ctx) => {
-      if ((ctx.user && user.id !== ctx.user.id) || !ctx.user) {
-        return null
-      }
+      // if ((ctx.user && user.id !== ctx.user.id) || !ctx.user) {
+      // return null
+      // }
       return auth.getAuthorization(user)
     },
   },
   UserConnection: {
     // FIXME
-    totalCount: (parent, args, ctx) =>
-      userSelector(ctx).count(),
+    totalCount: (parent, args, ctx) => userSelector(ctx).count(),
     // FIXME
     nodes: (_, { limit, offset }, ctx) =>
       userSelector(ctx).find({ limit, offset }),

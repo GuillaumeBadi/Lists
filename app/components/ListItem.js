@@ -17,7 +17,7 @@ class ListItem extends Component {
       <TouchableOpacity onPress={onPress}>
         <Container>
           <Subtitle>{title}</Subtitle>
-          <ListDescription>{description}</ListDescription>
+          {description && <ListDescription>{description}</ListDescription>}
         </Container>
       </TouchableOpacity>
     )

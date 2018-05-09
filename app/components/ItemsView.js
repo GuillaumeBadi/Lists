@@ -4,6 +4,8 @@ import styled from 'styled-components/native'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
+import RemoveCollection from '../containers/RemoveCollection'
+
 import ListItem from './ListItem'
 import Header from './Header'
 import Content from './Content'
@@ -50,6 +52,10 @@ class ItemsView extends Component {
     )
   }
 
+  removeCollection = () => {
+    this.props.navigation.pop()
+  }
+
   render() {
     const { items, name, description } = this.props
 
@@ -59,6 +65,10 @@ class ItemsView extends Component {
         <Content>
           <List>
             <Title>{name}</Title>
+            <RemoveCollection
+              onPress={this.removeCollection}
+              id={this.props.collectionId}
+            />
             {description && <Description>{description}</Description>}
             <ListContent>
               {items.map((item, i) => (

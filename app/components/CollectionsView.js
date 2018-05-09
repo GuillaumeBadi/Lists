@@ -6,6 +6,7 @@ import ListItem from './ListItem'
 import Content from './Content'
 import { Title } from './Text'
 import Header from './Header'
+import SignOut from '../containers/SignOut'
 
 const Container = styled.View`
   flex: 1;
@@ -22,6 +23,7 @@ const Items = styled.View`
 
 class CollectionsView extends Component {
   state = {
+    scrollTop: true,
     nodes: [],
   }
 
@@ -44,14 +46,30 @@ class CollectionsView extends Component {
     this.props.navigation.push('Items', { id })
   }
 
+  handleScroll = ({ nativeEvent: { contentOffset: { y } } }) => {
+    this.setState({ scrollTop: y < 5 })
+  }
+
+  renderSignOutButton = () => <SignOut navigation={this.props.navigation} />
+
   render() {
     const { collections } = this.props
+    const { scrollTop } = this.state
 
     return (
       <Container>
-        <Header renderRight={this.renderAdd} />
+        <Header
+          displayTitle={!scrollTop}
+          title="Your collections"
+          renderLeft={this.renderSignOutButton}
+          renderRight={this.renderAdd}
+        />
         <Content>
-          <List>
+          <List
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={10}
+            onScroll={this.handleScroll}
+          >
             <Title>Your collections</Title>
             <Items>
               {collections.map((collection, i) => (
