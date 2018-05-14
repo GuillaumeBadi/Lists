@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from './HeaderIcon'
 import Input from './Input'
 
-import { Title, Description } from './Text'
+import SectionTitle from './SectionTitle'
+import { Description } from './Text'
 import Content from './Content'
 import Header from './Header'
+
+const PaddedContent = styled(Content)`padding-top: 12px;`
 
 const Container = styled.View`
   flex: 1;
@@ -44,7 +47,7 @@ class CollectionFormView extends Component {
         onPress={() => this.props.navigation.pop()}
         name="md-arrow-back"
         size={20}
-        color="#424242"
+        color="#fff"
       />
     )
   }
@@ -55,11 +58,13 @@ class CollectionFormView extends Component {
     return (
       <Container>
         <Header renderLeft={this.renderBack} />
+        <SectionTitle paddedBottom={false}>Describe your new Collection</SectionTitle>
         <Content>
-          <Title>Describe your new collection</Title>
           <PaddedDescription>
             Don’t worry, you can change it later.
           </PaddedDescription>
+        </Content>
+        <PaddedContent>
           <Form>
             <InputContainer>
               <Input
@@ -79,7 +84,7 @@ class CollectionFormView extends Component {
               />
             </InputContainer>
           </Form>
-        </Content>
+        </PaddedContent>
         <Submit>
           <Icon
             onPress={() => onSubmit(this.state.name, this.state.description)}

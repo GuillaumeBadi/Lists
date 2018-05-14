@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql, ApolloConsumer } from 'react-apollo'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Text } from 'react-native'
 import styled from 'styled-components/native'
 
 import { signUp } from '../mutations'
@@ -66,7 +66,7 @@ class Login extends Component {
     const { username, email, password, loading } = this.state
 
     if (loading) {
-      return null
+      return <Text>Loading</Text>
     }
 
     return (

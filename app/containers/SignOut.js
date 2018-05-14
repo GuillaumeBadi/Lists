@@ -12,7 +12,7 @@ class SignOut extends Component {
     const { id } = this.props
 
     return (
-      <Icon name="md-person" color="#424242" size={20} onPress={this.signout} />
+      <Icon name="md-person" color="white" size={20} onPress={this.signout} />
     )
   }
 }

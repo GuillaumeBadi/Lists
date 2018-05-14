@@ -1,58 +1,35 @@
 import React, { Component } from 'react'
-import { Query } from 'react-apollo'
-import { gql } from 'apollo-boost'
-
-import ErrorScreen from './ErrorScreen'
-import LoadingScreen from './LoadingScreen'
+import { connect } from 'react-redux'
 import ItemsView from '../components/ItemsView'
 
-export const GET_COLLECTION_ITEMS = gql`
-  query getCollectionItems($id: Int!) {
-    collection(id: $id) {
-      name
-      description
-      id
-      items {
-        nodes {
-          id
-          value {
-            ... on LinkItem {
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-`
+import { removeItem } from '../reducers/collections'
 
 class Items extends Component {
+  removeItem = url => {
+    this.props.dispatch(
+      removeItem({ url, collectionId: this.props.collection.name }),
+    )
+  }
+
   render() {
-    const { navigation } = this.props
+    const { navigation, collection } = this.props
     const { state: { params: { id } } } = navigation
 
     return (
-      <Query query={GET_COLLECTION_ITEMS} variables={{ id }}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <LoadingScreen />
-          }
-          if (error) {
-            return <ErrorScreen error={error} />
-          }
-          return (
-            <ItemsView
-              name={data.collection.name}
-              description={data.collection.description}
-              collectionId={id}
-              navigation={navigation}
-              items={data.collection.items.nodes}
-            />
-          )
-        }}
-      </Query>
+      <ItemsView
+        removeItem={this.removeItem}
+        name={collection.name}
+        description={collection.description}
+        collectionId={id}
+        navigation={navigation}
+        items={collection.items}
+      />
     )
   }
 }
 
-export default Items
+export default connect(
+  (state, { navigation: { state: { params: { id } } } }) => ({
+    collection: state.collections.list.find(e => e.name === id) || [],
+  }),
+)(Items)

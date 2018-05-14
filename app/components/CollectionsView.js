@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from './HeaderIcon'
 import ListItem from './ListItem'
-import Content from './Content'
-import { Title } from './Text'
 import Header from './Header'
-import SignOut from '../containers/SignOut'
+
+import SectionTitle from './SectionTitle'
+import { connect } from 'react-redux'
+import { removeCollection } from '../reducers/collections'
+import config from '../config'
 
 const Container = styled.View`
   flex: 1;
@@ -16,30 +18,20 @@ const Container = styled.View`
 const List = styled.ScrollView``
 
 const Items = styled.View`
-  padding-top: 48px;
-  padding-bottom: 96px;
+  padding-top: 24px;
+  height: 100%;
   flex: 1;
 `
 
 class CollectionsView extends Component {
   state = {
+    scrolling: false,
     scrollTop: true,
     nodes: [],
   }
 
   collectionForm = () => {
     this.props.navigation.push('CollectionForm')
-  }
-
-  renderAdd = () => {
-    return (
-      <Icon
-        onPress={this.collectionForm}
-        name="md-add"
-        size={20}
-        color="#424242"
-      />
-    )
   }
 
   openCollection = id => () => {
@@ -50,42 +42,55 @@ class CollectionsView extends Component {
     this.setState({ scrollTop: y < 5 })
   }
 
-  renderSignOutButton = () => <SignOut navigation={this.props.navigation} />
+  renderAdd = () => {
+    return (
+      <Icon
+        name="md-add"
+        onPress={this.collectionForm}
+        color={config.header.iconColor}
+        size={20}
+      />
+    )
+  }
+
+  removeCollection = id => () => {
+    return this.props.dispatch(removeCollection(id))
+  }
+
+  scrollStart = () => this.setState({ scrolling: true })
+  scrollStop = () => this.setState({ scrolling: false })
 
   render() {
-    const { collections } = this.props
-    const { scrollTop } = this.state
+    const { collections, username } = this.props
 
     return (
       <Container>
-        <Header
-          displayTitle={!scrollTop}
-          title="Your collections"
-          renderLeft={this.renderSignOutButton}
-          renderRight={this.renderAdd}
-        />
-        <Content>
-          <List
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={10}
-            onScroll={this.handleScroll}
-          >
-            <Title>Your collections</Title>
-            <Items>
-              {collections.map((collection, i) => (
-                <ListItem
-                  key={i}
-                  onPress={this.openCollection(collection.id)}
-                  title={collection.name}
-                  description={collection.description}
-                />
-              ))}
-            </Items>
-          </List>
-        </Content>
+        <Header renderRight={this.renderAdd} />
+        <List
+          onScrollBeginDrag={this.scrollStart}
+          onScrollEndDrag={this.scrollStop}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={10}
+          onScroll={this.handleScroll}
+        >
+          <Items>
+            <SectionTitle>Your Collections</SectionTitle>
+            {collections.map((collection, i) => (
+              <ListItem
+                onPress={this.openCollection(collection.name)}
+                username={username}
+                onRemove={this.removeCollection(collection.name)}
+                key={i}
+                scrolling={this.state.scrolling}
+                title={collection.name}
+                description={collection.description}
+              />
+            ))}
+          </Items>
+        </List>
       </Container>
     )
   }
 }
 
-export default CollectionsView
+export default connect()(CollectionsView)

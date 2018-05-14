@@ -1,21 +1,26 @@
 import styled from 'styled-components/native'
 
-const Text = styled.Text`color: #424242;`
+const Text = styled.Text`color: black;`
 
 export const Title = styled(Text)`
   font-size: 24px;
-  font-family: 'Garamond-SemiBold';
+  font-family: Garamond-SemiBold;
 `
 
-export const Subtitle = styled(Title)`font-size: 18px;`
+export const Subtitle = styled(Title)`
+  font-size: 18px;
+  font-family: Garamond-SemiBold;
+`
 
 export const Description = styled(Text)`
-  font-family: 'CormorantGaramond-Semibold';
-  font-size: 16px;
+  font-family: Garamond-Regular;
+  font-size: 15px;
+  width: 260px;
+  margin: 12px 0;
 `
 
 export const Label = styled(Description)`
-  font-family: 'CormorantGaramond-Bold';
+  font-family: Garamond-Medium;
   font-size: 14px;
   padding-bottom: 6px;
 `
@@ -23,6 +28,6 @@ export const Label = styled(Description)`
 export const ListDescription = styled(Description)`
   margin-top: 6px;
   width: 240px;
-  font-family: 'CormorantGaramond-Semibold';
+  font-family: Garamond-Regular;
   font-size: 14px;
 `

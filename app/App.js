@@ -1,84 +1,42 @@
 import React, { Component } from 'react'
-import { Text, AsyncStorage } from 'react-native'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
-import styled from 'styled-components/native'
-import { StatusBar } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import { Font } from 'expo'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import reducers from './reducers'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage'
+import ShareMenu from 'react-native-share-menu'
 
-import Collections from './containers/Collections'
-import Items from './containers/Items'
-import ItemForm from './containers/ItemForm'
-import CollectionForm from './containers/CollectionForm'
-import Login from './components/Login'
+import Root from './Root'
 
-const Layout = styled.View`flex: 1;`
+const config = {
+  key: 'root',
+  storage: storage,
+}
 
-const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql',
-  async request(operation) {
-    return operation.setContext({
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
-    })
-  },
-})
+function configureStore() {
+  const store = createStore(
+    persistReducer(config, reducers),
+    applyMiddleware(thunk),
+  )
 
-const Router = StackNavigator(
-  {
-    Login: { screen: Login },
-    Collections: { screen: Collections },
-    CollectionForm: { screen: CollectionForm },
-    Items: { screen: Items },
-    ItemForm: { screen: ItemForm },
-  },
-  {
-    initialRouteName: 'Login',
-    navigationOptions: {
-      header: null,
-    },
-  },
-)
+  const persistor = persistStore(store)
+
+  return { persistor, store }
+}
+
+const { store, persistor } = configureStore()
 
 export default class App extends Component {
-  state = {
-    loaded: false,
-  }
-
-  async componentDidMount() {
-    await Font.loadAsync({
-      'CormorantGaramond-Semibold': require('./assets/fonts/Cormorant_Garamond/CormorantGaramond-SemiBold.ttf'),
-      'CormorantGaramond-Bold': require('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Bold.ttf'),
-      'Garamond-Bold': require('./assets/fonts/EB_Garamond/EBGaramond-Bold.ttf'),
-      'Garamond-BoldItalic': require('./assets/fonts/EB_Garamond/EBGaramond-BoldItalic.ttf'),
-      'Garamond-ExtraBold': require('./assets/fonts/EB_Garamond/EBGaramond-ExtraBold.ttf'),
-      'Garamond-ExtraBoldItalic': require('./assets/fonts/EB_Garamond/EBGaramond-ExtraBoldItalic.ttf'),
-      'Garamond-Italic': require('./assets/fonts/EB_Garamond/EBGaramond-Italic.ttf'),
-      'Garamond-Medium': require('./assets/fonts/EB_Garamond/EBGaramond-Medium.ttf'),
-      'Garamond-MediumItalic': require('./assets/fonts/EB_Garamond/EBGaramond-MediumItalic.ttf'),
-      'Garamond-Regular': require('./assets/fonts/EB_Garamond/EBGaramond-Regular.ttf'),
-      'Garamond-SemiBold': require('./assets/fonts/EB_Garamond/EBGaramond-SemiBold.ttf'),
-      'Garamond-SemiBoldItalic': require('./assets/fonts/EB_Garamond/EBGaramond-SemiBoldItalic.ttf'),
-    })
-    this.setState({ loaded: true })
-  }
 
   render() {
-    const { loaded } = this.state
-
-    if (!loaded) {
-      return null
-    }
-
     return (
-      <ApolloProvider client={client}>
-        <Layout>
-          <StatusBar hidden />
-          <Router />
-        </Layout>
-      </ApolloProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Root />
+        </PersistGate>
+      </Provider>
     )
   }
 }

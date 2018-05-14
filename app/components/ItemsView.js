@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
 import styled from 'styled-components/native'
 
-import Icon from 'react-native-vector-icons/Ionicons'
-
-import RemoveCollection from '../containers/RemoveCollection'
+import Icon from './HeaderIcon'
 
 import ListItem from './ListItem'
 import Header from './Header'
 import Content from './Content'
 import { Title, Description } from './Text'
 
-import { getCollectionItems } from '../queries'
+const PaddedContent = styled(Content)`padding-top: 48px;`
 
 const Container = styled.View`
   flex: 1;
@@ -19,16 +16,21 @@ const Container = styled.View`
 `
 
 const ListContent = styled.View`
-  padding-top: 48px;
   padding-bottom: 96px;
   flex: 1;
+`
+
+const TitleContainer = styled.View`
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row;
 `
 
 const List = styled.ScrollView``
 
 class ItemsView extends Component {
   renderSettings = () => {
-    return <Icon name="md-add" size={20} color="#424242" />
+    return <Icon name="md-add" size={20} color="#fff" />
   }
 
   renderBack = () => {
@@ -37,9 +39,16 @@ class ItemsView extends Component {
         onPress={() => this.props.navigation.pop()}
         name="md-arrow-back"
         size={20}
-        color="#424242"
+        color="#fff"
       />
     )
+  }
+
+  openItem = url => () => {
+    this.props.navigation.push('Page', {
+      url,
+      collectionId: this.props.collectionId,
+    })
   }
 
   itemForm = () => {
@@ -47,9 +56,11 @@ class ItemsView extends Component {
   }
 
   renderAdd = () => {
-    return (
-      <Icon onPress={this.itemForm} name="md-add" size={20} color="#424242" />
-    )
+    return <Icon onPress={this.itemForm} name="md-add" size={20} color="#fff" />
+  }
+
+  removeItem = url => () => {
+    this.props.removeItem(url)
   }
 
   removeCollection = () => {
@@ -57,26 +68,30 @@ class ItemsView extends Component {
   }
 
   render() {
-    const { items, name, description } = this.props
+    const { items = [], name, description } = this.props
 
     return (
       <Container>
         <Header renderLeft={this.renderBack} renderRight={this.renderAdd} />
-        <Content>
-          <List>
-            <Title>{name}</Title>
-            <RemoveCollection
-              onPress={this.removeCollection}
-              id={this.props.collectionId}
-            />
+        <List>
+          <PaddedContent>
+            <TitleContainer>
+              <Title>{name}</Title>
+            </TitleContainer>
             {description && <Description>{description}</Description>}
-            <ListContent>
-              {items.map((item, i) => (
-                <ListItem key={i} title={item.value.url} />
-              ))}
-            </ListContent>
-          </List>
-        </Content>
+          </PaddedContent>
+          <ListContent>
+            {items.map((item, i) => (
+              <ListItem
+                onPress={this.openItem(item.url)}
+                onRemove={this.removeItem(item.url)}
+                key={i}
+                username={item.domain}
+                title={item.title || item.url}
+              />
+            ))}
+          </ListContent>
+        </List>
       </Container>
     )
   }
