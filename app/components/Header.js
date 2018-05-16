@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 import config from '../config'
 
 const Title = styled.Text`
-  font-family: 'Quicksand-Medium';
+  font-family: 'Garamond-Regular';
   color: black;
   font-size: 14px;
   color: ${config.header.iconColor};
@@ -16,6 +16,7 @@ const Container = styled.View`
   background-color: ${config.header.color};
   padding-right: 24px;
   padding-left: 24px;
+  padding-top: 24px;
   justify-content: space-between;
   align-items: center;
   flex-flow: row;

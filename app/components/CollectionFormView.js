@@ -9,7 +9,9 @@ import { Description } from './Text'
 import Content from './Content'
 import Header from './Header'
 
-const PaddedContent = styled(Content)`padding-top: 12px;`
+const PaddedContent = styled(Content)`
+  padding-top: 12px;
+`
 
 const Container = styled.View`
   flex: 1;
@@ -22,7 +24,9 @@ const Form = styled.View`
   padding-bottom: 24px;
 `
 
-const PaddedDescription = styled(Description)`padding-top: 6px;`
+const PaddedDescription = styled(Description)`
+  padding-top: 6px;
+`
 
 const InputContainer = styled.View`
   padding-top: 12px;
@@ -58,7 +62,9 @@ class CollectionFormView extends Component {
     return (
       <Container>
         <Header renderLeft={this.renderBack} />
-        <SectionTitle paddedBottom={false}>Describe your new Collection</SectionTitle>
+        <SectionTitle paddedBottom={false}>
+          Describe your new Collection
+        </SectionTitle>
         <Content>
           <PaddedDescription>
             Don’t worry, you can change it later.

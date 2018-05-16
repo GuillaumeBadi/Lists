@@ -5,8 +5,8 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 import { persistStore, persistReducer } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Text } from 'react-native'
 import storage from 'redux-persist/lib/storage'
-import ShareMenu from 'react-native-share-menu'
 
 import Root from './Root'
 
@@ -29,7 +29,6 @@ function configureStore() {
 const { store, persistor } = configureStore()
 
 export default class App extends Component {
-
   render() {
     return (
       <Provider store={store}>

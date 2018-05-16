@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
 
-import { Ionicons as Icon } from '@expo/vector-icons'
+import Icon from './HeaderIcon'
 import Input from './Input'
 
 import SectionTitle from './SectionTitle'
-import { Description } from './Text'
 import Content from './Content'
 import Header from './Header'
+
+const PaddedContent = styled(Content)`
+  padding-top: 12px;
+`
 
 const Container = styled.View`
   flex: 1;
@@ -18,10 +21,6 @@ const Form = styled.View`
   width: 240px;
   padding-top: 24px;
   padding-bottom: 24px;
-`
-
-const PaddedDescription = styled(Description)`
-  padding-top: 6px;
 `
 
 const InputContainer = styled.View`
@@ -35,9 +34,13 @@ const Submit = styled(Content)`
   padding-bottom: 24px;
 `
 
-class CollectionForm extends Component {
-  state = {
-    url: '',
+class CollectionSettingsView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: props.collection.name,
+      description: props.collection.description,
+    }
   }
 
   renderBack = () => {
@@ -46,33 +49,40 @@ class CollectionForm extends Component {
         onPress={() => this.props.navigation.pop()}
         name="md-arrow-back"
         size={20}
-        color="#424242"
+        color="#fff"
       />
     )
   }
 
   render() {
-    const { onSubmit, collectionId } = this.props
+    const { onSubmit } = this.props
 
     return (
       <Container>
         <Header renderLeft={this.renderBack} />
-        <SectionTitle>Describe your new item</SectionTitle>
-        <Content>
+        <SectionTitle paddedBottom={false}>Edit your Collection</SectionTitle>
+        <PaddedContent>
           <Form>
             <InputContainer>
               <Input
-                label="Url"
-                placeholder="https://google.com"
-                value={this.state.url}
-                onChangeText={text => this.setState({ url: text })}
+                label="Name"
+                value={this.state.name}
+                onChangeText={text => this.setState({ name: text })}
+              />
+            </InputContainer>
+            <InputContainer>
+              <Input
+                label="Description"
+                multiline
+                value={this.state.description}
+                onChangeText={text => this.setState({ description: text })}
               />
             </InputContainer>
           </Form>
-        </Content>
+        </PaddedContent>
         <Submit>
           <Icon
-            onPress={() => onSubmit(this.state.url)}
+            onPress={() => onSubmit(this.state.name, this.state.description)}
             name="md-arrow-forward"
             size={24}
             color="#424242"
@@ -83,4 +93,4 @@ class CollectionForm extends Component {
   }
 }
 
-export default CollectionForm
+export default CollectionSettingsView

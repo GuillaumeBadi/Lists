@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import { Ionicons as Icon } from '@expo/vector-icons'
 
 const ButtonContainer = styled.TouchableOpacity`
-  background-color: #ff9f02;
+  background-color: white;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@ export class Button extends Component {
     const { onPress, icon } = this.props
     return (
       <ButtonContainer onPress={onPress}>
-        <Icon name={icon} size={20} color="white" />
+        <Icon name={icon} size={20} color="#ff9f02" />
       </ButtonContainer>
     )
   }

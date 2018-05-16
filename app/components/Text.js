@@ -1,6 +1,8 @@
 import styled from 'styled-components/native'
 
-const Text = styled.Text`color: black;`
+const Text = styled.Text`
+  color: black;
+`
 
 export const Title = styled(Text)`
   font-size: 24px;
@@ -27,7 +29,5 @@ export const Label = styled(Description)`
 
 export const ListDescription = styled(Description)`
   margin-top: 6px;
-  width: 240px;
-  font-family: Garamond-Regular;
   font-size: 14px;
 `

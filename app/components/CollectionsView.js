@@ -24,10 +24,9 @@ const Items = styled.View`
 `
 
 class CollectionsView extends Component {
-  state = {
-    scrolling: false,
-    scrollTop: true,
-    nodes: [],
+  constructor(props) {
+    super(props)
+    this.items = {}
   }
 
   collectionForm = () => {
@@ -38,50 +37,47 @@ class CollectionsView extends Component {
     this.props.navigation.push('Items', { id })
   }
 
-  handleScroll = ({ nativeEvent: { contentOffset: { y } } }) => {
-    this.setState({ scrollTop: y < 5 })
+  collectionSettings = id => () => {
+    this.props.navigation.push('CollectionSettings', { id })
+    this.items[id].recenter()
   }
 
-  renderAdd = () => {
-    return (
-      <Icon
-        name="md-add"
-        onPress={this.collectionForm}
-        color={config.header.iconColor}
-        size={20}
-      />
-    )
+  settingsView = () => {
+    this.props.navigation.push('Settings')
+  }
+
+  renderSettings = () => {
+    return <Icon name="md-settings" onPress={this.settingsView} />
+  }
+
+  renderRight = () => {
+    return <Icon name="md-add" onPress={this.collectionForm} />
   }
 
   removeCollection = id => () => {
     return this.props.dispatch(removeCollection(id))
   }
 
-  scrollStart = () => this.setState({ scrolling: true })
-  scrollStop = () => this.setState({ scrolling: false })
-
   render() {
     const { collections, username } = this.props
 
     return (
       <Container>
-        <Header renderRight={this.renderAdd} />
-        <List
-          onScrollBeginDrag={this.scrollStart}
-          onScrollEndDrag={this.scrollStop}
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={10}
-          onScroll={this.handleScroll}
-        >
+        <Header
+          renderLeft={this.renderSettings}
+          renderRight={this.renderRight}
+        />
+        <List showsVerticalScrollIndicator={false}>
           <Items>
             <SectionTitle>Your Collections</SectionTitle>
-            {collections.map((collection, i) => (
+            {collections.map(collection => (
               <ListItem
-                onPress={this.openCollection(collection.name)}
+                ref={l => (this.items[collection.id] = l)}
+                onPress={this.openCollection(collection.id)}
                 username={username}
-                onRemove={this.removeCollection(collection.name)}
-                key={i}
-                scrolling={this.state.scrolling}
+                onChange={this.collectionSettings(collection.id)}
+                onRemove={this.removeCollection(collection.id)}
+                key={collection.id}
                 title={collection.name}
                 description={collection.description}
               />

@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
 
-import { Ionicons as Icon } from '@expo/vector-icons'
+import Icon from './HeaderIcon'
 import Input from './Input'
 
 import SectionTitle from './SectionTitle'
 import { Description } from './Text'
 import Content from './Content'
 import Header from './Header'
+
+const PaddedContent = styled(Content)`
+  padding-top: 12px;
+`
 
 const Container = styled.View`
   flex: 1;
@@ -35,9 +39,12 @@ const Submit = styled(Content)`
   padding-bottom: 24px;
 `
 
-class CollectionForm extends Component {
-  state = {
-    url: '',
+class SettingsView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: props.username,
+    }
   }
 
   renderBack = () => {
@@ -46,33 +53,40 @@ class CollectionForm extends Component {
         onPress={() => this.props.navigation.pop()}
         name="md-arrow-back"
         size={20}
-        color="#424242"
+        color="#fff"
       />
     )
   }
 
   render() {
-    const { onSubmit, collectionId } = this.props
+    const { onSubmit } = this.props
 
     return (
       <Container>
         <Header renderLeft={this.renderBack} />
-        <SectionTitle>Describe your new item</SectionTitle>
+        <SectionTitle paddedBottom={false}>
+          Update your personal informations
+        </SectionTitle>
         <Content>
+          <PaddedDescription>
+            We use your data to provide a smoother experience
+          </PaddedDescription>
+        </Content>
+        <PaddedContent>
           <Form>
             <InputContainer>
               <Input
-                label="Url"
-                placeholder="https://google.com"
-                value={this.state.url}
-                onChangeText={text => this.setState({ url: text })}
+                label="Username"
+                placeholder="My news collection"
+                value={this.state.username}
+                onChangeText={text => this.setState({ username: text })}
               />
             </InputContainer>
           </Form>
-        </Content>
+        </PaddedContent>
         <Submit>
           <Icon
-            onPress={() => onSubmit(this.state.url)}
+            onPress={() => onSubmit({ username: this.state.username })}
             name="md-arrow-forward"
             size={24}
             color="#424242"
@@ -83,4 +97,4 @@ class CollectionForm extends Component {
   }
 }
 
-export default CollectionForm
+export default SettingsView

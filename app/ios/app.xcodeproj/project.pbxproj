@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -51,6 +52,26 @@
 		B86A1979613341A381C0AD1F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B392694F594C0DA022A32E /* Foundation.ttf */; };
 		B904623B89C142DA8DCBEBB9 /* SwipeALot.app in Frameworks */ = {isa = PBXBuildFile; fileRef = 564BFE4BADE347639F7F2514 /* SwipeALot.app */; };
 		BE37548474EC4EDD9596B3A4 /* SwipeALotTests.xctest in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E7D60EAF0648CD9C412A65 /* SwipeALotTests.xctest */; };
+		F09C96DD20AC47F1008D529C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F09C96DB20AC47F1008D529C /* MainInterface.storyboard */; };
+		F09C96E120AC47F1008D529C /* ShareCollection.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F09C96D720AC47F1008D529C /* ShareCollection.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F09C970F20AC48AB008D529C /* ShareCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = F09C970E20AC48AB008D529C /* ShareCollection.m */; };
+		F09C971620AC4B5E008D529C /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		F09C971720AC4B86008D529C /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		F09C971820AC4B86008D529C /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
+		F09C971920AC4B86008D529C /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		F09C971A20AC4B86008D529C /* libRCTLinking-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E881DF850E9000B6D8A /* libRCTLinking-tvOS.a */; };
+		F09C971B20AC4B86008D529C /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		F09C971C20AC4B86008D529C /* libRCTNetwork-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E8C1DF850E9000B6D8A /* libRCTNetwork-tvOS.a */; };
+		F09C971D20AC4B86008D529C /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		F09C971E20AC4B86008D529C /* libRCTSettings-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E901DF850E9000B6D8A /* libRCTSettings-tvOS.a */; };
+		F09C971F20AC4B86008D529C /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		F09C972020AC4B86008D529C /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
+		F09C972120AC4B86008D529C /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		F09C972220AC4B86008D529C /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		F09C972320AC4B86008D529C /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
+		F09C972420AC4B86008D529C /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		F09C972520AC4B86008D529C /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		F09C972620AC4B86008D529C /* libReactNativeShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F09C971520AC49DC008D529C /* libReactNativeShareExtension.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,7 +369,35 @@
 			remoteGlobalIDString = 00E356EE1AD99517003FC87E;
 			remoteInfo = SwipeALotTests;
 		};
+		F09C96DF20AC47F1008D529C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F09C96D620AC47F1008D529C;
+			remoteInfo = ShareCollection;
+		};
+		F09C971420AC49DC008D529C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F09C971020AC49DC008D529C /* ReactNativeShareExtension.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 41B5DE301D0B505800949BD5;
+			remoteInfo = ReactNativeShareExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F09C970D20AC47F1008D529C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F09C96E120AC47F1008D529C /* ShareCollection.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -393,6 +442,11 @@
 		DA0AB76C75E6449CA3CBC18D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		E8D5C7E3B53142A0B0D89648 /* SwipeALot.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SwipeALot.xcodeproj; path = "../node_modules/react-native-swipe-a-lot/ios/SwipeALot.xcodeproj"; sourceTree = "<group>"; };
 		EBA0ED77FFF24511B8025A93 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		F09C96D720AC47F1008D529C /* ShareCollection.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareCollection.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F09C96DC20AC47F1008D529C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		F09C96DE20AC47F1008D529C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F09C970E20AC48AB008D529C /* ShareCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareCollection.m; sourceTree = "<group>"; };
+		F09C971020AC49DC008D529C /* ReactNativeShareExtension.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeShareExtension.xcodeproj; path = "../node_modules/react-native-share-extension/ios/ReactNativeShareExtension.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -447,6 +501,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F09C96D420AC47F1008D529C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F09C971720AC4B86008D529C /* libRCTGeolocation.a in Frameworks */,
+				F09C971820AC4B86008D529C /* libRCTImage-tvOS.a in Frameworks */,
+				F09C971920AC4B86008D529C /* libRCTImage.a in Frameworks */,
+				F09C971A20AC4B86008D529C /* libRCTLinking-tvOS.a in Frameworks */,
+				F09C971B20AC4B86008D529C /* libRCTLinking.a in Frameworks */,
+				F09C971C20AC4B86008D529C /* libRCTNetwork-tvOS.a in Frameworks */,
+				F09C971D20AC4B86008D529C /* libRCTNetwork.a in Frameworks */,
+				F09C971E20AC4B86008D529C /* libRCTSettings-tvOS.a in Frameworks */,
+				F09C971F20AC4B86008D529C /* libRCTSettings.a in Frameworks */,
+				F09C972020AC4B86008D529C /* libRCTText-tvOS.a in Frameworks */,
+				F09C972120AC4B86008D529C /* libRCTText.a in Frameworks */,
+				F09C972220AC4B86008D529C /* libRCTVibration.a in Frameworks */,
+				F09C972320AC4B86008D529C /* libRCTWebSocket-tvOS.a in Frameworks */,
+				F09C972420AC4B86008D529C /* libRCTWebSocket.a in Frameworks */,
+				F09C972520AC4B86008D529C /* libReact.a in Frameworks */,
+				F09C972620AC4B86008D529C /* libReactNativeShareExtension.a in Frameworks */,
+				F09C971620AC4B5E008D529C /* libRCTActionSheet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +694,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F09C971020AC49DC008D529C /* ReactNativeShareExtension.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -649,6 +728,7 @@
 				13B07FAE1A68108700A75B9A /* app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* appTests */,
+				F09C96D820AC47F1008D529C /* ShareCollection */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				6E337229FACE4960ACD2C398 /* Resources */,
@@ -665,6 +745,7 @@
 				00E356EE1AD99517003FC87E /* appTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* app-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* app-tvOSTests.xctest */,
+				F09C96D720AC47F1008D529C /* ShareCollection.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -691,6 +772,24 @@
 			isa = PBXGroup;
 			children = (
 				F08C02BA20A9C0860016179C /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F09C96D820AC47F1008D529C /* ShareCollection */ = {
+			isa = PBXGroup;
+			children = (
+				F09C96DB20AC47F1008D529C /* MainInterface.storyboard */,
+				F09C96DE20AC47F1008D529C /* Info.plist */,
+				F09C970E20AC48AB008D529C /* ShareCollection.m */,
+			);
+			path = ShareCollection;
+			sourceTree = "<group>";
+		};
+		F09C971120AC49DC008D529C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F09C971520AC49DC008D529C /* libReactNativeShareExtension.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -724,10 +823,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				F09C970D20AC47F1008D529C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F09C96E020AC47F1008D529C /* PBXTargetDependency */,
 			);
 			name = app;
 			productName = "Hello World";
@@ -770,12 +871,30 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* app-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F09C96D620AC47F1008D529C /* ShareCollection */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F09C970C20AC47F1008D529C /* Build configuration list for PBXNativeTarget "ShareCollection" */;
+			buildPhases = (
+				F09C96D320AC47F1008D529C /* Sources */,
+				F09C96D420AC47F1008D529C /* Frameworks */,
+				F09C96D520AC47F1008D529C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareCollection;
+			productName = ShareCollection;
+			productReference = F09C96D720AC47F1008D529C /* ShareCollection.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -791,6 +910,10 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					F09C96D620AC47F1008D529C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -855,6 +978,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = F09C971120AC49DC008D529C /* Products */;
+					ProjectRef = F09C971020AC49DC008D529C /* ReactNativeShareExtension.xcodeproj */;
+				},
+				{
 					ProductGroup = F08C029120A9C0850016179C /* Products */;
 					ProjectRef = DA0AB76C75E6449CA3CBC18D /* RNVectorIcons.xcodeproj */;
 				},
@@ -869,6 +996,7 @@
 				00E356ED1AD99517003FC87E /* appTests */,
 				2D02E47A1E0B4A5D006451C7 /* app-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* app-tvOSTests */,
+				F09C96D620AC47F1008D529C /* ShareCollection */,
 			);
 		};
 /* End PBXProject section */
@@ -1154,6 +1282,13 @@
 			remoteRef = F08C02BF20A9C0860016179C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F09C971520AC49DC008D529C /* libReactNativeShareExtension.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeShareExtension.a;
+			remoteRef = F09C971420AC49DC008D529C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1196,6 +1331,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F09C96D520AC47F1008D529C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F09C96DD20AC47F1008D529C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1267,6 +1410,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F09C96D320AC47F1008D529C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F09C970F20AC48AB008D529C /* ShareCollection.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1280,6 +1431,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* app-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		F09C96E020AC47F1008D529C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F09C96D620AC47F1008D529C /* ShareCollection */;
+			targetProxy = F09C96DF20AC47F1008D529C /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1290,6 +1446,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = app;
+			sourceTree = "<group>";
+		};
+		F09C96DB20AC47F1008D529C /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F09C96DC20AC47F1008D529C /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1579,6 +1743,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-share-extension/ios/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1614,10 +1779,62 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-share-extension/ios/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F09C96E220AC47F1008D529C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ShareCollection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.app.ShareCollection;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F09C96E320AC47F1008D529C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ShareCollection/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.app.ShareCollection;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1668,6 +1885,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F09C970C20AC47F1008D529C /* Build configuration list for PBXNativeTarget "ShareCollection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F09C96E220AC47F1008D529C /* Debug */,
+				F09C96E320AC47F1008D529C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

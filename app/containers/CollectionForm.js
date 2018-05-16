@@ -7,7 +7,7 @@ import { addCollection } from '../reducers/collections'
 class CollectionForm extends Component {
   submit = (name, description) => {
     this.props.dispatch(addCollection({ name, description }))
-    this.props.navigation.pop()
+    this.props.navigation.navigate('Collections')
   }
 
   render() {

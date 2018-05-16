@@ -1,98 +1,112 @@
 import { handleActions, createAction } from 'redux-actions'
 
 const actions = {
-  addCollection: createAction('ADD_COLLECTION'),
-  updateCollections: createAction('UPDATE_COLLECTIONS'),
+  clean: createAction('CLEAN'),
+  clear: createAction('CLEAR'),
   removeCollection: createAction('REMOVE_COLLECTION'),
-  addCollectionItem: createAction('ADD_COLLECTION_ITEM'),
-  updateItem: createAction('UPDATE_ITEM'),
   removeItem: createAction('REMOVE_ITEM'),
+  addCollection: createAction('ADD_COLLECTION'),
+  addItem: createAction('ADD_ITEM'),
+  updateItem: createAction('UPDATE_ITEM'),
+  updateCollections: createAction('UPDATE_COLLECTIONS'),
+  updateCollection: createAction('UPDATE_COLLECTION'),
 }
 
-export const removeCollection = name => async dispatch => {
-  return dispatch(actions.removeCollection(name))
+export const clean = actions.clean
+export const clear = actions.clear
+
+export function removeCollection(id) {
+  return (dispatch, getState) => {
+    dispatch(actions.removeCollection(id))
+    const {
+      collections: { items },
+    } = getState()
+    return items
+      .filter(i => i.collectionId === id)
+      .forEach(i => dispatch(removeItem(i)))
+  }
 }
 
-export const addCollection = ({ name, description, tags = [] }) => async (
-  dispatch,
-  getState,
-) => {
-  dispatch(actions.addCollection({ name, description, tags }))
+export function updateCollection(collection) {
+  return dispatch => {
+    return dispatch(actions.updateCollection(collection))
+  }
 }
 
-export const addCollectionItem = ({
-  collectionId,
-  url,
-  domain,
-}) => dispatch => {
-  return dispatch(actions.addCollectionItem({ url, domain, collectionId }))
+export function removeItem(id) {
+  return dispatch => dispatch(actions.removeItem(id))
 }
 
-export const removeItem = ({ url, collectionId }) => dispatch => {
-  return dispatch(actions.removeItem({ url, collectionId }))
+export const addCollection = collection => (dispatch, getState) => {
+  const {
+    collections: { list },
+  } = getState()
+  const id = `${list.length}`
+  dispatch(actions.addCollection({ ...collection, id }))
 }
 
-export const updateItem = ({ collectionId, item }) => dispatch => {
-  return dispatch(actions.updateItem({ collectionId, item }))
+export function addItem({ collectionId, url }) {
+  return dispatch => {
+    const id = `${collectionId}:${url}`
+    dispatch(actions.addItem({ collectionId, url, id }))
+    return id
+  }
+}
+
+export const updateItem = item => dispatch => {
+  return dispatch(actions.updateItem(item))
 }
 
 const initialState = {
   list: [],
+  items: [],
 }
 
 export default handleActions(
   {
+    CLEAN(state) {
+      return {
+        ...state,
+        list: state.list.filter(e => e.name.length !== 0),
+      }
+    },
+    UPDATE_COLLECTION(state, { payload: collection }) {
+      const s = {
+        ...state,
+        list: state.list.map(
+          e => (e.id === collection.id ? { ...e, ...collection } : e),
+        ),
+      }
+      return s
+    },
     UPDATE_COLLECTIONS(state, { payload: list }) {
-      return { list }
+      return { ...state, list }
     },
-    REMOVE_COLLECTION(state, { payload: name }) {
-      return { list: state.list.filter(e => e.name !== name) }
+    REMOVE_COLLECTION(state, { payload: id }) {
+      return { ...state, list: state.list.filter(e => e.id !== id) }
     },
-    ADD_COLLECTION(state, { payload: { name, description, items = [] } }) {
-      return { list: [{ name, description, items }, ...state.list] }
-    },
-    REMOVE_ITEM(state, { payload: { url, collectionId } }) {
+    ADD_COLLECTION(state, { payload: collection }) {
       return {
         ...state,
-        list: state.list.map(c => {
-          if (c.name === collectionId) {
-            return {
-              ...c,
-              items: c.items.filter(i => i.url !== url),
-            }
-          }
-          return c
-        }),
+        list: [collection, ...state.list],
       }
     },
-    UPDATE_ITEM(state, { payload: { collectionId, item } }) {
+    REMOVE_ITEM(state, { payload: id }) {
       return {
         ...state,
-        list: state.list.map(c => {
-          if (c.name === collectionId) {
-            return {
-              ...c,
-              items: c.items.map(i => {
-                if (i.url === item.url) {
-                  return { ...i, ...item }
-                }
-                return i
-              }),
-            }
-          }
-          return c
-        }),
+        items: state.items.filter(e => e.id !== id),
       }
     },
-    ADD_COLLECTION_ITEM(state, { payload: { collectionId, domain, url } }) {
+    UPDATE_ITEM(state, { payload: item }) {
       return {
         ...state,
-        list: state.list.map(e => {
-          if (e.name === collectionId) {
-            return { ...e, items: [{ domain, url }, ...(e.items || [])] }
-          }
-          return e
-        }),
+        items: state.items.map(e => (e.id === item.id ? { ...e, ...item } : e)),
+      }
+    },
+    ADD_ITEM(state, { payload: item }) {
+      return {
+        ...state,
+        items: [item, ...state.items],
       }
     },
   },

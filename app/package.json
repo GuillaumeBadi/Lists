@@ -33,7 +33,7 @@
     "react-native-cli": "^2.0.1",
     "react-native-readability": "git+https://github.com/jameslawler/react-native-readability.git",
     "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-share-menu": "^2.1.2",
+    "react-native-share-extension": "^1.2.1",
     "react-native-swipe-a-lot": "^0.2.1",
     "react-native-swipeable": "^0.6.0",
     "react-native-swiper": "^1.5.13",

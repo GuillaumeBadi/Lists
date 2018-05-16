@@ -8,7 +8,14 @@ import Header from './Header'
 import Content from './Content'
 import { Title, Description } from './Text'
 
-const PaddedContent = styled(Content)`padding-top: 48px;`
+const PaddedContent = styled(Content)`
+  padding-top: 48px;
+`
+
+const RightHeader = styled.View`
+  align-items: center;
+  flex-flow: row;
+`
 
 const Container = styled.View`
   flex: 1;
@@ -44,23 +51,28 @@ class ItemsView extends Component {
     )
   }
 
-  openItem = url => () => {
-    this.props.navigation.push('Page', {
-      url,
-      collectionId: this.props.collectionId,
-    })
+  openItem = id => () => {
+    this.props.navigation.push('Page', { id })
   }
 
   itemForm = () => {
     this.props.navigation.push('ItemForm', { id: this.props.collectionId })
   }
 
-  renderAdd = () => {
-    return <Icon onPress={this.itemForm} name="md-add" size={20} color="#fff" />
+  collectionSettings = () => {
+    this.props.navigation.push('CollectionSettings', {
+      id: this.props.collectionId,
+    })
   }
+  renderRight = () => (
+    <RightHeader>
+      <Icon name="md-settings" onPress={this.collectionSettings} />
+      <Icon name="md-add" onPress={this.itemForm} />
+    </RightHeader>
+  )
 
-  removeItem = url => () => {
-    this.props.removeItem(url)
+  removeItem = id => () => {
+    this.props.removeItem(id)
   }
 
   removeCollection = () => {
@@ -72,7 +84,7 @@ class ItemsView extends Component {
 
     return (
       <Container>
-        <Header renderLeft={this.renderBack} renderRight={this.renderAdd} />
+        <Header renderLeft={this.renderBack} renderRight={this.renderRight} />
         <List>
           <PaddedContent>
             <TitleContainer>
@@ -81,11 +93,11 @@ class ItemsView extends Component {
             {description && <Description>{description}</Description>}
           </PaddedContent>
           <ListContent>
-            {items.map((item, i) => (
+            {items.map(item => (
               <ListItem
-                onPress={this.openItem(item.url)}
-                onRemove={this.removeItem(item.url)}
-                key={i}
+                onPress={this.openItem(item.id)}
+                onRemove={this.removeItem(item.id)}
+                key={item.id}
                 username={item.domain}
                 title={item.title || item.url}
               />
