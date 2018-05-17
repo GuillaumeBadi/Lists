@@ -1,8 +1,0 @@
-{
-  "name": "app",
-  "displayName": "app",
-  "expo": {
-    "sdkVersion": "27.0.0",
-    "scheme": "collections"
-  }
-}
