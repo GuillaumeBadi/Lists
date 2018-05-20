@@ -1,0 +1,51 @@
+{
+  "name": "Collections",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react-native": "^3.2.1",
+    "react-test-renderer": "16.3.1"
+  },
+  "scripts": {
+    "upgrade": "react-native upgrade",
+    "start": "react-native start",
+    "android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android",
+    "ios": "npm run clean-fixtures; react-native run-ios",
+    "test": "jest",
+    "link": "react-native link",
+    "lint": "eslint components",
+    "clean-fixtures": "rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "react": "16.3.1",
+    "react-native": "0.53.0",
+    "react-native-cli": "^2.0.1",
+    "react-native-modalbox": "^1.4.2",
+    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-share-extension": "^1.2.1",
+    "react-native-swipe-a-lot": "^0.2.1",
+    "react-native-swipeable": "^0.6.0",
+    "react-native-swiper": "^1.5.13",
+    "react-native-tab-view": "^0.0.77",
+    "react-native-vector-icons": "^4.6.0",
+    "react-navigation": "^1.5.11",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-actions": "^2.3.2",
+    "redux-persist": "^5.9.1",
+    "redux-thunk": "^2.2.0",
+    "styled-components": "^3.2.6",
+    "url": "^0.11.0"
+  }
+}

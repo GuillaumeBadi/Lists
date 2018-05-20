@@ -18,12 +18,14 @@ function onStart(error) {
     process.exit(1)
   }
 
-  console.log(`server started on port: ${PORT}`)
-  console.log(`Graphiql playground available at: http://${HOST}:${PORT}/graphiql`)
+  console.log(`server started on port: ${server.address().port}`)
+  console.log(
+    `Graphiql playground available at: http://${HOST}:${PORT}/graphiql`,
+  )
   onProcessHook(() => server.close())
 }
 
-onProcessHook((err) => {
+onProcessHook(err => {
   console.log(err)
   setTimeout(() => {
     console.error('Hard shutdown')
