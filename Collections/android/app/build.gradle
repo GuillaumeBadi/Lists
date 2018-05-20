@@ -107,6 +107,14 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+      release {
+          storeFile file(MY_AWESOME_PROJECT_RELEASE_STORE_FILE)
+          storePassword MY_AWESOME_PROJECT_RELEASE_STORE_PASSWORD
+          keyAlias MY_AWESOME_PROJECT_RELEASE_KEY_ALIAS
+          keyPassword MY_AWESOME_PROJECT_RELEASE_KEY_PASSWORD
+      }
+    }
     splits {
         abi {
             reset()
@@ -119,6 +127,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -137,10 +146,10 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-share-extension')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-share-extension')
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 

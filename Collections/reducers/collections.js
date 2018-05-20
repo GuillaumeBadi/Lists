@@ -49,6 +49,7 @@ export function addItem({ collectionId, url }) {
   return dispatch => {
     const id = `${collectionId}:${url}`
     dispatch(actions.addItem({ collectionId, url, id }))
+    console.log('OK, saved')
     return id
   }
 }
@@ -68,6 +69,7 @@ export default handleActions(
       return {
         ...state,
         list: state.list.filter(e => e.name.length !== 0),
+        items: [],
       }
     },
     UPDATE_COLLECTION(state, { payload: collection }) {

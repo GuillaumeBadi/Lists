@@ -12,6 +12,7 @@ import CollectionSettings from './containers/CollectionSettings'
 import Page from './containers/Page'
 import Settings from './containers/Settings'
 import { setUsername } from './reducers/user'
+import { clean } from './reducers/collections'
 
 const Layout = styled.View`
   flex: 1;

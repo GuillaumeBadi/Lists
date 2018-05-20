@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Collections</string>
+  <string name="app_name">Collections</string>
+  <string name="title_activity_share">Save to Collections</string>
 </resources>
