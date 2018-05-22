@@ -5,7 +5,7 @@ import Swipeable from 'react-native-swipeable'
 import Content from './Content'
 
 import { Button } from './ListActions'
-import { ListDescription, Subtitle, Label } from './Text'
+import { Tag, ListDescription, Subtitle, Label } from './Text'
 
 const Container = styled.View`
   background-color: white;
@@ -16,18 +16,26 @@ const Wrapper = styled.View`
   width: 100%;
 `
 
-const LightLabel = styled(Label)`
+export const LightLabel = styled(Label)`
   color: #d0d0d0;
   padding: 0;
 `
 
-const Divider = styled.View`
-  border-bottom-width: 1;
+export const Divider = styled.View`
+  border-bottom-width: 2;
   border-bottom-color: #d0d0d0;
   margin-top: -8px;
-  margin-bottom: 4px;
-  width: 100px;
+  margin-bottom: 6px;
+  width: 10%;
 `
+
+const Tags = styled.View`
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+`
+
 class ListItem extends Component {
   constructor(props) {
     super(props)
@@ -62,12 +70,15 @@ class ListItem extends Component {
           <TouchableOpacity activeOpacity={1} onPress={onPress}>
             <Container>
               <Content>
-                <LightLabel>{username}</LightLabel>
+                <LightLabel>Collection de {username}</LightLabel>
                 <Divider />
                 <Subtitle>{title}</Subtitle>
-                {description && (
-                  <ListDescription>{description}</ListDescription>
-                )}
+                <ListDescription>{description || ''}</ListDescription>
+                <Tags>
+                  <Tag>hello</Tag>
+                  <Tag>again</Tag>
+                  <Tag>world</Tag>
+                </Tags>
               </Content>
             </Container>
           </TouchableOpacity>

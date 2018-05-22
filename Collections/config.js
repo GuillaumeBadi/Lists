@@ -1,8 +1,14 @@
-
 export default {
   header: {
     color: 'white',
     iconColor: 'black',
-    padding: '24px'
-  }
+    paddingVertical: '24px',
+    paddingHorizontal: '32px',
+  },
+  read: {
+    themes: [
+      { background: 'white', textColor: 'black' },
+      { background: 'black', textColor: 'white' },
+    ],
+  },
 }

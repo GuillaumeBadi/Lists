@@ -3,5 +3,7 @@ import { AppRegistry } from 'react-native'
 import App from './App'
 import Share from './share'
 
+console.disableYellowBox = true
+
 AppRegistry.registerComponent('Collections', () => App)
 AppRegistry.registerComponent('ShareCollection', () => () => <App share />)

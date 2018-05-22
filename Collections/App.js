@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState } from 'react-native'
+import { AsyncStorage, AppState } from 'react-native'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'

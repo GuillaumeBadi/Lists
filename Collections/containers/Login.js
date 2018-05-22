@@ -1,38 +1,30 @@
 import React, { Component } from 'react'
-import { Button } from 'react-native'
-import styled from 'styled-components/native'
 import { connect } from 'react-redux'
 
-import Content from '../components/Content'
-import Input from '../components/Input'
-
-const Layout = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-`
+import Form from '../components/Form'
 
 class Login extends Component {
-  state = { username: '' }
-
-  submit = () => {
-    this.props.setUsername(this.state.username)
+  submit = results => {
+    const { username } = results
+    console.log(results)
+    this.props.setUsername(username)
   }
 
   render() {
-    const { username } = this.state
+    const { navigation } = this.props
 
     return (
-      <Layout>
-        <Content>
-          <Input
-            value={username}
-            onChangeText={text => this.setState({ username: text })}
-          />
-          <Button onPress={this.submit} title="Submit" color="#424242" />
-        </Content>
-      </Layout>
+      <Form
+        displayHeader={false}
+        title="Enter random values for now"
+        description="Authentication is not plugged yet"
+        navigation={navigation}
+        fields={[
+          { name: 'username', label: 'Username' },
+          { name: 'password', label: 'Password' },
+        ]}
+        onSubmit={this.submit}
+      />
     )
   }
 }

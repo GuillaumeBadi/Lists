@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { addCollection } from '../reducers/collections'
 
 class CollectionForm extends Component {
-  submit = (name, description) => {
+  submit = ({ name, description }) => {
     this.props.dispatch(addCollection({ name, description }))
     this.props.navigation.navigate('Collections')
   }

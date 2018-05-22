@@ -4,7 +4,10 @@ import I from 'react-native-vector-icons/Ionicons'
 import config from '../config'
 
 const Ic = styled(I)`
-  padding: ${config.header.padding};
+  padding-top: ${config.header.paddingVertical};
+  padding-bottom: ${config.header.paddingVertical};
+  padding-left: ${config.header.paddingHorizontal};
+  padding-right: ${config.header.paddingHorizontal};
 `
 
 export default function Icon({ ...props }) {

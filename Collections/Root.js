@@ -14,6 +14,8 @@ import Settings from './containers/Settings'
 import { setUsername } from './reducers/user'
 import { clean } from './reducers/collections'
 
+import Article from './components/Article'
+
 const Layout = styled.View`
   flex: 1;
   background-color: white;
@@ -21,7 +23,7 @@ const Layout = styled.View`
 
 const Routes = new StackNavigator(
   {
-    Page: { screen: Page },
+    Page: { screen: Article },
     CollectionSettings: { screen: CollectionSettings },
     Settings: { screen: Settings },
     Items: { screen: Items },
