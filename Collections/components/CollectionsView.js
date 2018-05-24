@@ -8,10 +8,10 @@ import ListItem from './ListItem'
 import Header from './Header'
 import NoCollection from './NoCollection'
 import CTA from './CTA'
+import RemoveCollection from '../containers/RemoveCollection'
 
 import SectionTitle from './SectionTitle'
 import PreviewTitle from './PreviewTitle'
-import { connect } from 'react-redux'
 import { removeCollection } from '../reducers/collections'
 import config from '../config'
 
@@ -94,112 +94,19 @@ class CollectionsView extends Component {
             <SectionTitle>
               Hello, {username.charAt(0).toUpperCase() + username.slice(1)} 🙂
             </SectionTitle>
-            <Content>
-              <PreviewTitle>Votre premiere collection</PreviewTitle>
-            </Content>
+            {collections.length === 1 && (
+              <Content>
+                <PreviewTitle>Votre premiere collection</PreviewTitle>
+              </Content>
+            )}
             {collections.map(collection => (
               <ListItem
+                id={collection.id}
                 ref={l => (this.items[collection.id] = l)}
                 onPress={this.openCollection(collection.id)}
                 username={username}
                 onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
-                key={collection.id}
-                title={collection.name}
-                description={collection.description}
-              />
-            ))}
-            {collections.map(collection => (
-              <ListItem
-                ref={l => (this.items[collection.id] = l)}
-                onPress={this.openCollection(collection.id)}
-                username={username}
-                onChange={this.collectionSettings(collection.id)}
-                onRemove={this.removeCollection(collection.id)}
+                removeComponent={RemoveCollection}
                 key={collection.id}
                 title={collection.name}
                 description={collection.description}
@@ -215,4 +122,4 @@ class CollectionsView extends Component {
   }
 }
 
-export default connect()(CollectionsView)
+export default CollectionsView

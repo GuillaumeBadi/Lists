@@ -1,13 +1,4 @@
 import React, { Component } from 'react'
-import styled from 'styled-components/native'
-
-import Icon from './HeaderIcon'
-import Input from './Input'
-
-import SectionTitle from './SectionTitle'
-import { Description } from './Text'
-import Content from './Content'
-import Header from './Header'
 
 import Form from './Form'
 

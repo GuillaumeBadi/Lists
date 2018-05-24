@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loading from '../components/Loading'
 
-import LoginView from '../components/LoginView'
+import SignupView from '../components/SignupView'
 import Form from '../components/Form'
 
 const SIGNUP_MUTATION = gql`
@@ -17,9 +17,21 @@ const SIGNUP_MUTATION = gql`
   }
 `
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     loading: true,
+    error: null,
+  }
+
+  submit = signup => async ({ email, username, password }) => {
+    try {
+      const result = await signup({ variables: { email, username, password } })
+      await AsyncStorage.setItem('token', result.data.signup.jwt)
+      this.props.navigation.push('Routes')
+    } catch (e) {
+      const error = e.graphQLErrors[0].message
+      this.setState({ error })
+    }
   }
 
   async componentDidMount() {
@@ -38,8 +50,18 @@ class Login extends Component {
       return <Loading />
     }
 
-    return <LoginView navigation={navigation} />
+    return (
+      <Mutation mutation={SIGNUP_MUTATION}>
+        {signup => (
+          <SignupView
+            error={this.state.error}
+            navigation={navigation}
+            onSubmit={this.submit(signup)}
+          />
+        )}
+      </Mutation>
+    )
   }
 }
 
-export default Login
+export default Signup

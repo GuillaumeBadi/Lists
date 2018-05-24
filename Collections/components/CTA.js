@@ -10,17 +10,31 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
   border-radius: 25px;
+
+  ${props =>
+    props.outline &&
+    `
+    background-color: transparent;
+    border-width: 1;
+    border-color: black;
+  `};
 `
 
 const Text = styled(Subtitle)`
   color: white;
+
+  ${props =>
+    props.outline &&
+    `
+    color: black;
+  `};
 `
 
-export default function CTA({ children, onPress }) {
+export default function CTA({ outline, children, onPress }) {
   return (
-    <Container>
+    <Container outline={outline}>
       <TouchableOpacity onPress={onPress}>
-        <Text>{children}</Text>
+        <Text outline={outline}>{children}</Text>
       </TouchableOpacity>
     </Container>
   )

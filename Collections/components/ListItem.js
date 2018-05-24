@@ -53,11 +53,14 @@ class ListItem extends Component {
       onPress,
       onRemove,
       onChange,
+      removeComponent: RemoveComponent = ({ children }) => children(v => null),
     } = this.props
 
     const rightButtons = [
       <Button key={0} icon="md-settings" onPress={onChange} />,
-      <Button key={1} icon="md-trash" onPress={onRemove} />,
+      <RemoveComponent key={1} id={this.props.id}>
+        {remove => <Button icon="md-trash" onPress={remove} />}
+      </RemoveComponent>,
     ]
 
     return (

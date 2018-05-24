@@ -14,6 +14,12 @@ const PaddedContent = styled(Content)`
   padding-top: 12px;
 `
 
+const Error = styled.Text`
+  font-family: EBGaramond-Medium;
+  color: red;
+  font-size: 13px;
+`
+
 const SubmitIcon = styled(Ionicons)`
   padding: 24px;
 `
@@ -23,7 +29,7 @@ const Container = styled.View`
   background-color: white;
 `
 
-const Form = styled.View`
+const Wrapper = styled.View`
   width: 240px;
   padding-top: 12px;
   padding-bottom: 24px;
@@ -44,7 +50,7 @@ const Submit = styled(Content)`
   padding-bottom: 24px;
 `
 
-class CollectionFormView extends Component {
+class Form extends Component {
   static defaultProps = {
     displayHeader: true,
   }
@@ -79,7 +85,14 @@ class CollectionFormView extends Component {
   }
 
   render() {
-    const { displayHeader, onSubmit, title, description, fields } = this.props
+    const {
+      displayHeader,
+      onSubmit,
+      title,
+      description,
+      fields,
+      error,
+    } = this.props
 
     return (
       <Container>
@@ -87,13 +100,13 @@ class CollectionFormView extends Component {
         <SectionTitle paddedBottom={false}>{title}</SectionTitle>
         <Content>
           <PaddedDescription>{description}</PaddedDescription>
+          {error && <Error>{error}</Error>}
         </Content>
         <PaddedContent>
-          <Form>
-            {fields.map((f, i) => (
+          <Wrapper>
+            {fields.map(f => (
               <InputContainer key={f.name}>
                 <Input
-                  autoFocus={i === 0}
                   label={f.label}
                   placeholder={f.placeholder}
                   value={this.state.fields[f.name]}
@@ -101,7 +114,7 @@ class CollectionFormView extends Component {
                 />
               </InputContainer>
             ))}
-          </Form>
+          </Wrapper>
         </PaddedContent>
         <Submit>
           <SubmitIcon
@@ -116,4 +129,4 @@ class CollectionFormView extends Component {
   }
 }
 
-export default CollectionFormView
+export default Form

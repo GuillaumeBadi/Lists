@@ -1,11 +1,23 @@
 const { find, filter } = require('lodash')
 const itemSelector = require('../selectors/item')
+const itemMutation = require('../mutations/item')
 
 module.exports = {
   RootQuery: {
     item: (_, { id }) => itemSelector.findById(id),
   },
-  RootMutation: {},
+  RootMutation: {
+    removeItem: async (_, { id }, ctx) => {
+      const item = await ctx.loaders.item.load(id)
+
+      if (!item) {
+        throw new Error('Item not found')
+      }
+
+      await itemMutation(ctx).delete(id)
+      return item
+    },
+  },
   Item: {},
   ItemConnection: {
     totalCount: () => itemSelector.count(),

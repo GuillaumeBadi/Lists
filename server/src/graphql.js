@@ -1,5 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools')
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const DataLoader = require('dataloader')
 const merge = require('lodash.merge')
 
@@ -36,7 +36,7 @@ function multiLoader(createLoader) {
 // Generate the graphql schema
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers: merge(User, Collection, Item, Settings)
+  resolvers: merge(User, Collection, Item, Settings),
 })
 
 function extractToken(request) {
@@ -65,35 +65,51 @@ module.exports = graphqlExpress(async request => {
 
   // Initialize loaders
   context.loaders.user = new DataLoader(ids =>
-    userSelector(context).findByIds(ids))
+    userSelector(context).findByIds(ids),
+  )
   context.loaders.collection = new DataLoader(ids =>
-    collectionSelector(context).findByIds(ids))
+    collectionSelector(context).findByIds(ids),
+  )
   context.loaders.item = new DataLoader(ids =>
-    itemSelector(context).findByIds(ids))
+    itemSelector(context).findByIds(ids),
+  )
 
   // Initialize multiLoaders
   // multi loaders are lazy loaded loaders who can handle arguments
-  context.loaders.collectionsByOwner = multiLoader(args =>
-    new DataLoader(async ids => {
-      const collectionsByOwner = await collectionSelector(context).findByOwners(ids, args)
+  context.loaders.collectionsByOwner = multiLoader(
+    args =>
+      new DataLoader(async ids => {
+        const collectionsByOwner = await collectionSelector(
+          context,
+        ).findByOwners(ids, args)
 
-      collectionsByOwner.forEach(collections => collections.forEach(collection =>
-        context.loaders.collection.prime(collection.id, collection)))
+        collectionsByOwner.forEach(collections =>
+          collections.forEach(collection =>
+            context.loaders.collection.prime(collection.id, collection),
+          ),
+        )
 
-      return collectionsByOwner
-    }))
-  context.loaders.itemsByCollection = multiLoader(args =>
-    new DataLoader(async ids => {
-      const itemsByCollection = await itemSelector(context).findByCollections(ids, args)
+        return collectionsByOwner
+      }),
+  )
+  context.loaders.itemsByCollection = multiLoader(
+    args =>
+      new DataLoader(async ids => {
+        const itemsByCollection = await itemSelector(context).findByCollections(
+          ids,
+          args,
+        )
 
-      itemsByCollection.forEach(items => items.forEach(item =>
-        context.loaders.item.prime(item.id, item)))
+        itemsByCollection.forEach(items =>
+          items.forEach(item => context.loaders.item.prime(item.id, item)),
+        )
 
-      return itemsByCollection
-    }))
-
+        return itemsByCollection
+      }),
+  )
 
   // Try to set context.user
+
   const token = extractToken(request)
   if (token) await populateUser(context, token)
 
