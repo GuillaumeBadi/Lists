@@ -2,11 +2,12 @@ const { find, filter } = require('lodash')
 const collectionSelector = require('../selectors/collection')
 const userSelector = require('../selectors/user')
 const collectionMutation = require('../mutations/collection')
+const readability = require('../util/readability')
 
 module.exports = {
   RootQuery: {
     collections: () => ({}),
-    collection: (_, { id }, ctx) => ctx.loaders.collection.load(id)
+    collection: (_, { id }, ctx) => ctx.loaders.collection.load(id),
   },
   RootMutation: {
     createCollection: async (_, args, ctx) => {
@@ -23,7 +24,7 @@ module.exports = {
 
       const collection = await collectionMutation(ctx).update(id, {
         name,
-        description
+        description,
       })
 
       ctx.loaders.collection.clear(collection.id)
@@ -46,27 +47,38 @@ module.exports = {
         throw new ResourceNotFoundError('Collection not found')
       }
 
-      const item = await collectionMutation(ctx).addItem(collection, { type, value })
+      try {
+        value = JSON.parse(value)
+        const source = await readability(value.url)
 
-      return item
-    }
+        const item = await collectionMutation(ctx).addItem(collection, {
+          type,
+          value: Object.assign(value, { source }),
+        })
+
+        return item
+      } catch (e) {
+        console.error(e)
+      }
+    },
   },
   Collection: {
     owner: (collection, args, ctx) => ctx.loaders.user.load(collection.ownerId),
     items: async (collection, args, ctx) => {
-      const items = await ctx.loaders.itemsByCollection(args).load(collection.id)
+      const items = await ctx.loaders
+        .itemsByCollection(args)
+        .load(collection.id)
 
       return { nodes: items }
     },
   },
   CollectionConnection: {
-    totalCount: (parent, args, ctx) =>
-      collectionSelector(ctx).count(),
+    totalCount: (parent, args, ctx) => collectionSelector(ctx).count(),
     nodes: ({ nodes }) => nodes,
-    edges: ({ nodes }) => nodes
+    edges: ({ nodes }) => nodes,
   },
   CollectionEdge: {
-    node: (collection) => collection,
-    cursor: (collection) => collection.id
-  }
+    node: collection => collection,
+    cursor: collection => collection.id,
+  },
 }

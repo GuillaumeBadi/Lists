@@ -14,9 +14,6 @@ const Title = styled.Text`
 
 const Container = styled.View`
   background-color: ${config.header.color};
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 24px;
   justify-content: space-between;
   align-items: center;
   flex-flow: row;
@@ -32,11 +29,11 @@ class Header extends Component {
 
     return (
       <Container>
-        <View>{renderLeft()}</View>
+        <View>{renderLeft(config.header.iconColor)}</View>
         <View>
           <Title>{title}</Title>
         </View>
-        <View>{renderRight()}</View>
+        <View>{renderRight(config.header.iconColor)}</View>
       </Container>
     )
   }

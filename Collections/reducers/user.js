@@ -2,7 +2,10 @@ import { createAction, handleActions } from 'redux-actions'
 
 const initialState = {
   username: '',
+  theme: 0,
 }
+
+export const updateTheme = createAction('UPDATE_THEME')
 
 export const setUsername = createAction('SET_USERNAME')
 
@@ -16,6 +19,10 @@ export default handleActions(
 
     UPDATE_USER(state, { payload: user }) {
       return { ...state, ...user }
+    },
+
+    UPDATE_THEME(state, { payload: theme }) {
+      return { ...state, theme }
     },
   },
   initialState,

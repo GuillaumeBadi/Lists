@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { ScrollView } from 'react-native'
 import styled from 'styled-components/native'
 import ModalItem from './ModalItem'
@@ -11,14 +10,10 @@ const Container = styled.View`
 `
 
 class ModalItemsList extends Component {
-  addToCollection = id => () => {
-    const { url } = this.props
-    this.props.dispatch(addItem({ url, collectionId: id }))
-    this.props.close()
-  }
+  addToCollection = id => () => {}
 
   render() {
-    const { collections } = this.props
+    const { collections = [] } = this.props
     return (
       <Container>
         <ScrollView>
@@ -35,6 +30,4 @@ class ModalItemsList extends Component {
   }
 }
 
-export default connect(state => ({
-  collections: state.collections.list,
-}))(ModalItemsList)
+export default ModalItemsList

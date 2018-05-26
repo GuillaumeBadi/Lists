@@ -1,30 +1,66 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 import ItemFormView from '../components/ItemFormView'
 
-import { addItem } from '../reducers/collections'
-import { getSource } from '../reducers/pages'
+import Loading from '../components/Loading'
+import { GET_ITEMS } from './Items'
+
+const CREATE_ITEM = gql`
+  mutation createItem($collectionId: Int!, $type: String!, $value: String!) {
+    addCollectionItem(collectionId: $collectionId, type: $type, value: $value) {
+      __typename
+      id
+      value {
+        ... on LinkItem {
+          type
+          url
+        }
+      }
+    }
+  }
+`
 
 class ItemForm extends Component {
-  submit = url => {
+  submit = createItem => async ({ url }) => {
     const collectionId = this.props.navigation.state.params.id
-    const domain = url.split('/')[2]
-    const id = this.props.dispatch(addItem({ domain, url, collectionId }))
-    this.props.dispatch(getSource(url, id))
+    await createItem({
+      variables: {
+        value: JSON.stringify({ url, index: 0, type: 'LINK' }),
+        collectionId,
+        type: 'LINK',
+      },
+    })
     this.props.navigation.pop()
-    this.props.navigation.navigate('Page', { id })
   }
 
   render() {
     const { navigation } = this.props
-    const {
-      state: {
-        params: { id },
-      },
-    } = navigation
 
-    return <ItemFormView navigation={navigation} onSubmit={this.submit} />
+    return (
+      <Mutation
+        mutation={CREATE_ITEM}
+        refetchQueries={[
+          {
+            query: GET_ITEMS,
+            variables: this.props.navigation.state.params.id,
+          },
+        ]}
+      >
+        {(createItem, { loading }) => {
+          if (loading) {
+            return <Loading />
+          }
+          return (
+            <ItemFormView
+              navigation={navigation}
+              onSubmit={this.submit(createItem)}
+            />
+          )
+        }}
+      </Mutation>
+    )
   }
 }
 
-export default connect()(ItemForm)
+export default ItemForm

@@ -7,6 +7,7 @@ import ListItem from './ListItem'
 import Header from './Header'
 import Content from './Content'
 import { Title, Description } from './Text'
+import removeItem from '../containers/RemoveItem'
 
 const PaddedContent = styled(Content)`
   padding-top: 48px;
@@ -95,11 +96,12 @@ class ItemsView extends Component {
           <ListContent>
             {items.map(item => (
               <ListItem
+                id={item.id}
                 onPress={this.openItem(item.id)}
-                onRemove={this.removeItem(item.id)}
+                removeComponent={removeItem(this.props.collectionId)}
                 key={item.id}
-                username={item.domain}
-                title={item.title || item.url}
+                username={item.value.type}
+                title={item.value.url.slice(0, 20)}
               />
             ))}
           </ListContent>

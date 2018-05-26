@@ -6,7 +6,9 @@ const userMutation = require('../mutations/user')
 
 module.exports = {
   RootQuery: {
-    viewer: (_, __, ctx) => ctx.user && ctx.loaders.user.load('me'),
+    viewer: (_, __, ctx) => {
+      return ctx.user && ctx.loaders.user.load('me')
+    },
     user: (_, { id }, ctx) => ctx.loaders.user.load(id),
     users: () => ({}),
     signin: async (_, payload, ctx) => {
@@ -20,6 +22,7 @@ module.exports = {
   RootMutation: {
     signup: async (_, payload, ctx) => {
       ctx.user = await userMutation(ctx).create(payload)
+      console.log({ user: ctx.user })
 
       ctx.loaders.user.prime(ctx.user.id, ctx.user)
 

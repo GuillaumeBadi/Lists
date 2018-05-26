@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native'
 import { Title } from './components/Text'
 import SectionTitle from './components/SectionTitle'
 import Content from './components/Content'
 import styled from 'styled-components/native'
 import ShareExtension from 'react-native-share-extension'
-import Modal from 'react-native-modalbox'
 
 import ModalItemsList from './components/ModalItemsList'
 
+const { width, height } = Dimensions.get('window')
+
 const Container = styled.View`
-  width: 300px;
+  position: absolute;
+  width: ${width};
   height: 300px;
   background-color: white;
-  border-radius: 10px;
   padding: 24px 0;
+  bottom: 0;
+`
+
+const Wrapper = styled.View`
+  flex: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: ${width};
+  height: ${height};
 `
 
 const ModalTitle = styled(Title)`
@@ -56,14 +67,15 @@ export default class Share extends Component {
     }
 
     return (
-      <Container>
-        <Content>
-          <TouchableOpacity onPress={() => ShareExtension.close()}>
-            <ModalTitle>Share to:</ModalTitle>
-          </TouchableOpacity>
-          <ModalItemsList close={this.close} url={this.state.value} />
-        </Content>
-      </Container>
+      <Wrapper>
+        <Container>
+          <Content>
+            <TouchableOpacity onPress={() => ShareExtension.close()}>
+              <ModalTitle>Share to:</ModalTitle>
+            </TouchableOpacity>
+          </Content>
+        </Container>
+      </Wrapper>
     )
   }
 }

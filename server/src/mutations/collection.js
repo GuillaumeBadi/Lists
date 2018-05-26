@@ -22,7 +22,7 @@ module.exports = context => ({
       .insert({
         type,
         index,
-        value: JSON.parse(value),
+        value,
         ownerId: context.user.id,
         collectionId: collection.id,
       })
