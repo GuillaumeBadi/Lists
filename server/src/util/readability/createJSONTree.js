@@ -1,4 +1,6 @@
 const cheerio =require('cheerio')
+
+// Check if the element must be handled differantly
 function resolveExceptions(node, $node) {
   return false
 }
@@ -20,7 +22,7 @@ function getNodeJSON() {
     if ($contents.length) {
       child.childs = getJSONTree(null, $contents)
     } else {
-      child.text = $this.text().replace(/\n/g, '')
+      child.text = $this.text()
     }
   } else {
     child.isException = true
@@ -31,23 +33,28 @@ function getNodeJSON() {
 
 // get a JSON Tree from a cheerio instance
 function getJSONTree($elem, content = $elem.contents()) {
-  // return Array.from(content).map(getNodeJSON)
   return content.map(getNodeJSON).get()
 }
 
 // clean empty nodes
-function cleanJSONTree(tree) {
+function cleanJSONTree(tree, ignoreWhiteChars = false) {
   return tree.reduce((res, node) => {
+    const ignoreWhiteChilds = ignoreWhiteChars || node.type === 'code'
+
     if (
-      node.isException
+      ignoreWhiteChars
+      || node.isException
       || node.type === 'img'
       || node.text && node.text.trim().length
     ) {
+      if (node.text && !ignoreWhiteChars) {
+        node.text = node.text.replace(/\n/g, '')
+      }
       res.push(node)
     }
     else if (node.childs) {
-      const childs = cleanJSONTree(node.childs)
-      if (childs.length) res.push({ ...node, childs })
+      const childs = cleanJSONTree(node.childs, ignoreWhiteChilds)
+      if (childs.length || ignoreWhiteChilds) res.push({ ...node, childs })
     }
     return res
   }, [])

@@ -30,10 +30,12 @@
     "lodash.orderby": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "markdown": "^0.5.0",
+    "marked": "^0.3.19",
     "node-readability": "^3.0.0",
     "objection": "^1.1.7",
     "pg": "^7.4.1",
-    "puid": "^1.0.7"
+    "puid": "^1.0.7",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
