@@ -13,16 +13,11 @@ const app = express()
 app
   .use((req, res, next) => {
     req.locals = { requestId: puid.generate() }
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept',
-    )
     res.set('X-Request-Id', req.locals.requestId)
     next()
   })
-  .use(bodyParser.urlencoded({ extended: false }))
-  .use(bodyParser.json())
+  .use('/graphql', bodyParser.urlencoded({ extended: false }))
+  .use('/graphql', bodyParser.json())
   .use('/graphql', graphql)
   .use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
   .use((req, res, next) => next(new NotFound()))

@@ -29,6 +29,7 @@ module.exports = {
   LinkItem: {},
   ItemValue: {
     __resolveType(obj) {
+      console.log(obj)
       switch (obj.type) {
         case 'LIST':
           return 'ListItem'

@@ -1,3 +1,37 @@
+# @TODO refactor it https://github.com/graphql/graphql-js/issues/207
+input ItemInput {
+  name: String
+  description: String
+  textPreview: String
+  text: String
+  checked: Boolean
+  url: String
+}
+
+
+extend type RootMutation {
+  createCollection(
+    name: String!
+    description: String
+  ): Collection
+
+  updateCollection(
+    id: ID!
+    name: String
+    description: String
+  ): Collection
+
+  removeCollection(id: ID!): Collection
+
+  addCollectionItem(
+    collectionId: Int!
+    type: String!
+    item: ItemInput
+  ): Item
+
+  removeItem(id: ID!): Item
+}
+
 type Collection {
   id: ID!
   name: String

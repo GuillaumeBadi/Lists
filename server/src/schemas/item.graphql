@@ -43,6 +43,8 @@ type ItemEdge {
   node: Collection
 }
 
+union ItemValue = ListItem | TextItem | CheckableItem | LinkItem
+
 type ListItem {
   type: String
   name: String
@@ -64,6 +66,10 @@ type CheckableItem {
 type LinkItem {
   type: String
   url: String
+  source: DomWrapper
 }
 
-union ItemValue = ListItem | TextItem | CheckableItem | LinkItem
+type DomWrapper {
+  title: String
+  tree: JSON
+}

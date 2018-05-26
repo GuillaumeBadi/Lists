@@ -32,20 +32,12 @@ const RootMutation = gql`
       password: String!
       pictureurl: String
     ): User
-
-    createCollection(name: String!, description: String): Collection
-
-    updateCollection(id: ID!, name: String, description: String): Collection
-
-    removeCollection(id: ID!): Collection
-
-    addCollectionItem(collectionId: Int!, type: String!, value: String!): Item
-
-    removeItem(id: ID!): Item
   }
 `
 
 const SchemaDefinition = gql`
+  scalar JSON
+
   schema {
     query: RootQuery
     mutation: RootMutation

@@ -1,4 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools')
+const JSONType = require('graphql-type-json')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const DataLoader = require('dataloader')
 const merge = require('lodash.merge')
@@ -36,7 +37,7 @@ function multiLoader(createLoader) {
 // Generate the graphql schema
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers: merge(User, Collection, Item, Settings),
+  resolvers: merge({ JSON: JSONType }, User, Collection, Item, Settings),
 })
 
 function extractToken(request) {

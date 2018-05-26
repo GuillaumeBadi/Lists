@@ -40,26 +40,20 @@ module.exports = {
 
       return collection
     },
-    async addCollectionItem(_, { collectionId, type, value }, ctx) {
+    async addCollectionItem(_, { collectionId, type, item }, ctx) {
       const collection = await ctx.loaders.collection.load(collectionId)
 
       if (!collection) {
         throw new ResourceNotFoundError('Collection not found')
       }
 
-      try {
-        value = JSON.parse(value)
-        const source = await readability(value.url)
+      const newItem = { type, value: { type, ...item } }
 
-        const item = await collectionMutation(ctx).addItem(collection, {
-          type,
-          value: Object.assign(value, { source }),
-        })
-
-        return item
-      } catch (e) {
-        console.error(e)
+      if (type === 'LINK') {
+        newItem.value.source = await readability(item.url)
       }
+
+      return await collectionMutation(ctx).addItem(collection, newItem)
     },
   },
   Collection: {
